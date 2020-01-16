@@ -1,26 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-function App() {
+// Import Components
+import Header from "./components/Header";
+import Course from "./components/courses/Course";
+import CreateCourse from "./components/create-course/CreateCourse";
+import CourseDetail from "./components/course-detail/CourseDetail";
+import UserSignUp from "./components/user/UserSignUp";
+// import UserSignIn from "./components/user/UserSignIn";
+import NotFound from "./components/NotFound";
+
+//Import With Context
+import withContext from "./Context";
+
+// Connect Course to context
+const CourseWithContext = withContext(Course);
+
+export default () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+    <Router>
+      <div>
+        <Header />
 
-export default App;
+        <Switch>
+          {/* This Component will load the Courses and show them using the Courses Component  */}
+          <Route exact path="/" component={CourseWithContext} />
+          <Route path="/course-detail" component={CourseDetail} />
+          <Route path="/create-course" component={CreateCourse} />
+          <Route path="/sign-up" component={UserSignUp} />
+          {/* <Route path="/sign-in" component={UserSignIn} /> */}
+          <Route component={NotFound} />
+        </Switch>
+      </div>
+    </Router>
+  );
+};
