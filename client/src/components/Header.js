@@ -6,14 +6,16 @@ class Header extends Component {
   };
   render() {
     return (
-      <div class="header">
-        <div class="bounds">
-          <h1 class="header--logo">Courses</h1>
+      <div className="header">
+        <div className="bounds">
+          <h1 className="header--logo">
+            <a href="/">Courses</a>
+          </h1>
           <nav>
-            <a class="signup" href="sign-up.html">
+            <a className="signup" href="sign-up">
               Sign Up
             </a>
-            <a class="signin" href="sign-in.html">
+            <a className="signin" href="sign-in">
               Sign In
             </a>
           </nav>
