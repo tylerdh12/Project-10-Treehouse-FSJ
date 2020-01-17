@@ -14,14 +14,24 @@ export class Provider extends Component {
   }
 
   render() {
+    const { authenticatedUser } = this.state;
     const value = {
+      authenticatedUser,
       data: this.data,
-      actions: {}
+      actions: {
+        signIn: this.signIn,
+        signOut: this.signOut
+      }
     };
     return (
       <Context.Provider value={value}>{this.props.children}</Context.Provider>
     );
   }
+
+  signIn = async (username, password) => {
+    const user = await this.data.getUser(username, password);
+    return user;
+  };
 }
 
 export const Consumer = Context.Consumer;

@@ -17,6 +17,7 @@ import withContext from "./Context";
 // Connect Course to context
 const CoursesWithContext = withContext(Courses);
 const UserSignUpWithContext = withContext(UserSignUp);
+const UserSignInWithContext = withContext(UserSignIn);
 
 export default () => {
   return (
@@ -31,7 +32,7 @@ export default () => {
           <Route path="/create-course" component={CreateCourse} />
           <Route path="/update-course" component={UpdateCourse} />
           <Route path="/sign-up" component={UserSignUpWithContext} />
-          <Route path="/sign-in" component={UserSignIn} />
+          <Route path="/sign-in" component={UserSignInWithContext} />
           <Route component={NotFound} />
         </Switch>
       </div>
