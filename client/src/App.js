@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 // Import Components
 import Header from "./components/Header";
-import Course from "./components/courses/Course";
+import Courses from "./components/courses/Courses";
 import CreateCourse from "./components/create-course/CreateCourse";
 import CourseDetail from "./components/course-detail/CourseDetail";
 import UserSignUp from "./components/user/UserSignUp";
@@ -14,7 +14,7 @@ import NotFound from "./components/NotFound";
 import withContext from "./Context";
 
 // Connect Course to context
-const CourseWithContext = withContext(Course);
+const CoursesWithContext = withContext(Courses);
 
 export default () => {
   return (
@@ -24,7 +24,7 @@ export default () => {
 
         <Switch>
           {/* This Component will load the Courses and show them using the Courses Component  */}
-          <Route exact path="/" component={CourseWithContext} />
+          <Route exact path="/" component={CoursesWithContext} />
           <Route path="/course-detail" component={CourseDetail} />
           <Route path="/create-course" component={CreateCourse} />
           <Route path="/sign-up" component={UserSignUp} />
