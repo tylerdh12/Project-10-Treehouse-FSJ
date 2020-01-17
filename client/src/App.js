@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Header from "./components/Header";
 import Courses from "./components/courses/Courses";
 import CreateCourse from "./components/create-course/CreateCourse";
+import UpdateCourse from "./components/update-course/UpdateCourse";
 import CourseDetail from "./components/course-detail/CourseDetail";
 import UserSignUp from "./components/user/UserSignUp";
 import UserSignIn from "./components/user/UserSignIn";
@@ -27,6 +28,7 @@ export default () => {
           <Route exact path="/" component={CoursesWithContext} />
           <Route path="/course-detail" component={CourseDetail} />
           <Route path="/create-course" component={CreateCourse} />
+          <Route path="/update-course" component={UpdateCourse} />
           <Route path="/sign-up" component={UserSignUp} />
           <Route path="/sign-in" component={UserSignIn} />
           <Route component={NotFound} />
