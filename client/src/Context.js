@@ -39,6 +39,10 @@ export class Provider extends Component {
     }
     return user;
   };
+
+  signOut = () => {
+    this.setState({ authenticatedUser: null });
+  };
 }
 
 export const Consumer = Context.Consumer;

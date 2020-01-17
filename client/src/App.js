@@ -11,6 +11,7 @@ import UpdateCourse from "./components/update-course/UpdateCourse";
 import CourseDetail from "./components/course-detail/CourseDetail";
 import UserSignUp from "./components/user/UserSignUp";
 import UserSignIn from "./components/user/UserSignIn";
+import UserSignOut from "./components/user/UserSignOut";
 import NotFound from "./components/NotFound";
 
 //Import With Context
@@ -22,6 +23,7 @@ const AuthWithContext = withContext(Authenticated);
 const CoursesWithContext = withContext(Courses);
 const UserSignUpWithContext = withContext(UserSignUp);
 const UserSignInWithContext = withContext(UserSignIn);
+const UserSignOutWithContext = withContext(UserSignOut);
 
 export default () => {
   return (
@@ -38,6 +40,7 @@ export default () => {
           <Route path="/update-course" component={UpdateCourse} />
           <Route path="/sign-up" component={UserSignUpWithContext} />
           <Route path="/sign-in" component={UserSignInWithContext} />
+          <Route path="/sign-out" component={UserSignOutWithContext} />
           <Route component={NotFound} />
         </Switch>
       </div>

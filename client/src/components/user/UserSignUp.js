@@ -121,9 +121,9 @@ export default class UserSignUp extends Component {
         if (errors.length) {
           this.setState({ errors });
         } else {
-          console.log(
-            `${firstName} ${lastName} has just created an account with the Email: ${emailAddress} and Password: ${password}.`
-          );
+          context.actions.signIn(emailAddress, password).then(()=> {
+            this.props.history.push('/authenticated')
+          })
         }
       })
       .catch(err => {
