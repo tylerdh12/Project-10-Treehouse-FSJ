@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 // Import Components
 import Header from "./components/Header";
 import PrivateRoute from "./PrivateRoute";
-import Authenticated from "./components/Authenticated";
+import Authenticated from "./components/user/Authenticated";
 import Courses from "./components/courses/Courses";
 import CreateCourse from "./components/create-course/CreateCourse";
 import UpdateCourse from "./components/update-course/UpdateCourse";
@@ -35,6 +35,7 @@ export default () => {
           {/* This Component will load the Courses and show them using the Courses Component  */}
           <Route exact path="/" component={CoursesWithContext} />
           <PrivateRoute path="/authenticated" component={AuthWithContext} />
+          <PrivateRoute path="/settings" component={AuthWithContext} />
           <Route path="/course-detail" component={CourseDetail} />
           <Route path="/create-course" component={CreateCourse} />
           <Route path="/update-course" component={UpdateCourse} />

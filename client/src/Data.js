@@ -59,13 +59,8 @@ export default class Data {
     }
   }
 
-  async getCourses(title, description, materialsNeeded, estimatedTime) {
-    const response = await this.api(`/courses`, "GET", null, true, {
-      title,
-      description,
-      materialsNeeded,
-      estimatedTime
-    });
+  async getCourses() {
+    const response = await this.api("/courses", "GET", null, true);
     if (response.status === 200) {
       return response.json().then(data => console.log(data));
     } else if (response.status === 401) {
