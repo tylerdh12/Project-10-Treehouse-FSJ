@@ -146,4 +146,33 @@ router.post(
   })
 );
 
+// DELETE /api/courses/:id 204 - Deletes a course and returns no content
+router.delete(
+  "/:userId",
+  authenticateUser,
+  asyncHandler(async (req, res) => {
+    let { userId } = req.params;
+    const user = await User.findByPk(userId, {
+      attributes: { exclude: ["createdAt", "updatedAt"] }
+    });
+    if (user) {
+      if (user.id === req.currentUser.id) {
+        user.destroy().then(() => {
+          res.status(204).json();
+        });
+      } else {
+        res.status(403).json({
+          message: "You can only delete or update your own User Account.",
+          currentUser: req.currentUser.id,
+          userId: req.body.userId
+        });
+      }
+    } else {
+      res
+        .status(404)
+        .json({ message: "The record your looking for does not exist" });
+    }
+  })
+);
+
 module.exports = router;
