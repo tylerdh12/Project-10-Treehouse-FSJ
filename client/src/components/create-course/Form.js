@@ -1,7 +1,7 @@
 import React from "react";
 
 export default props => {
-  const { cancel, errors, submit, submitButtonText, elements } = props;
+  const { cancel, submit, submitButtonText, elements } = props;
 
   function handleSubmit(event) {
     event.preventDefault();
