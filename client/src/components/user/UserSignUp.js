@@ -74,6 +74,7 @@ export default class UserSignUp extends Component {
               </React.Fragment>
             )}
           />
+          <p>&nbsp;</p>
           <p>
             Already have a user account? <Link to="/signin">Click here</Link> to
             sign in!

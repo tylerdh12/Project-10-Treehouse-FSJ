@@ -7,7 +7,7 @@ import Course from "./components/courses/Course";
 import CreateCourse from "./components/create-course/CreateCourse";
 import CourseDetail from "./components/course-detail/CourseDetail";
 import UserSignUp from "./components/user/UserSignUp";
-// import UserSignIn from "./components/user/UserSignIn";
+import UserSignIn from "./components/user/UserSignIn";
 import NotFound from "./components/NotFound";
 
 //Import With Context
@@ -28,7 +28,7 @@ export default () => {
           <Route path="/course-detail" component={CourseDetail} />
           <Route path="/create-course" component={CreateCourse} />
           <Route path="/sign-up" component={UserSignUp} />
-          {/* <Route path="/sign-in" component={UserSignIn} /> */}
+          <Route path="/sign-in" component={UserSignIn} />
           <Route component={NotFound} />
         </Switch>
       </div>
