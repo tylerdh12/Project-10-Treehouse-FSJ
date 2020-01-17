@@ -6,7 +6,9 @@ export default ({ context }) => {
   return (
     <div className="bounds">
       <div>
-        <h1>{authUser.firstName} is Authenticated!</h1>
+        <h1>
+          {authUser.firstName} {authUser.lastName} is Authenticated!
+        </h1>
         <p>Your username is {authUser.emailAddress}.</p>
       </div>
     </div>
