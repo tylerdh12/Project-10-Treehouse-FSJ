@@ -24,38 +24,67 @@ export default class CreateCourse extends Component {
             submitButtonText="Create Course"
             elements={() => (
               <React.Fragment>
-                <input
-                  id="title"
-                  name="title"
-                  type="text"
-                  value={title}
-                  onChange={this.change}
-                  placeholder="Title"
-                />
-                <input
-                  id="description"
-                  name="description"
-                  type="text"
-                  value={description}
-                  onChange={this.change}
-                  placeholder="Description"
-                />
-                <input
-                  id="hours"
-                  name="hours"
-                  type="text"
-                  value={hours}
-                  onChange={this.change}
-                  placeholder="Hours"
-                />
-                <input
-                  id="materials"
-                  name="materials"
-                  type="text"
-                  value={materials}
-                  onChange={this.change}
-                  placeholder="Materials"
-                />
+                <div className="grid-66">
+                  <div className="course--header">
+                    <h4 className="course--label">Course</h4>
+                    <div>
+                      <input
+                        className="input-title course--title--input"
+                        id="title"
+                        name="title"
+                        type="text"
+                        value={title}
+                        onChange={this.change}
+                        placeholder="Title"
+                      />
+                      <p>By User Name</p>
+                    </div>
+                  </div>
+                  <div className="course--description">
+                    <div>
+                      <textarea
+                        id="description"
+                        name="description"
+                        type="textarea"
+                        value={description}
+                        onChange={this.change}
+                        placeholder="Course description..."
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="grid-25 grid-right">
+                  <div className="course--stats">
+                    <ul className="course--stats--list">
+                      <li className="course--stats--list--item">
+                        <h4>Estimated Time</h4>
+                        <div>
+                          <input
+                            id="hours"
+                            name="hours"
+                            type="text"
+                            value={hours}
+                            onChange={this.change}
+                            placeholder="Hours"
+                          />
+                        </div>
+                      </li>
+                      <li className="course--stats--list--item">
+                      <h4>Materials Needed</h4>
+                        <div>
+                        <textarea
+                          id="materials"
+                          name="materials"
+                          type="textarea"
+                          value={materials}
+                          onChange={this.change}
+                          placeholder="Materials"
+                        />
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
               </React.Fragment>
             )}
           />
@@ -76,20 +105,16 @@ export default class CreateCourse extends Component {
 
   submit = () => {
     const { context } = this.props;
-    const { name, username, password } = this.state;
+    const { title, description, hours, materials } = this.state;
 
     //new user payload
-    const user = { name, username, password };
+    const course = { title, description, hours, materials };
 
     context.data
-      .createUser(user)
+      .createUser(course)
       .then(errors => {
         if (errors.length) {
           this.setState({ errors });
-        } else {
-          context.actions.signIn(username, password).then(() => {
-            this.props.history.push("/authenticated");
-          });
         }
       })
       .catch(err => {
