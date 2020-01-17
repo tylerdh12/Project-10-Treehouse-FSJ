@@ -43,8 +43,8 @@ export default class UserSignIn extends Component {
           />
           <p>&nbsp;</p>
           <p>
-            Don't have a user account? <a href="sign-up.html">Click here</a> to
-            sign up!
+            Don't have a user account? <a href="sign-up">Click here</a> to sign
+            up!
           </p>
         </div>
       </div>
@@ -67,10 +67,10 @@ export default class UserSignIn extends Component {
     const { from } = this.props.location.state || {
       from: { pathname: "authenticated" }
     };
-    const { username, password } = this.state;
+    const { emailAddress, password } = this.state;
 
     context.actions
-      .signIn(username, password)
+      .signIn(emailAddress, password)
       .then(user => {
         if (user === null) {
           this.setState(() => {
@@ -78,7 +78,6 @@ export default class UserSignIn extends Component {
           });
         } else {
           this.props.history.push(from);
-          console.log(`SUCCESS! ${username} is now signed in!`);
         }
       })
       .catch(err => {

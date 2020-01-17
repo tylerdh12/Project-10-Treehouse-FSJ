@@ -4,8 +4,9 @@ import Form from "./Form";
 
 export default class UserSignUp extends Component {
   state = {
-    name: "",
-    username: "",
+    firstName: "",
+    lastName: "",
+    emailAddress: "",
     password: "",
     errors: []
   };
@@ -76,8 +77,8 @@ export default class UserSignUp extends Component {
           />
           <p>&nbsp;</p>
           <p>
-            Already have a user account? <Link to="/signin">Click here</Link> to
-            sign in!
+            Already have a user account? <Link to="/sign-in">Click here</Link>{" "}
+            to sign in!
           </p>
         </div>
       </div>

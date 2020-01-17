@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 // Import Components
 import Header from "./components/Header";
+import PrivateRoute from "./PrivateRoute";
+import Authenticated from "./components/Authenticated";
 import Courses from "./components/courses/Courses";
 import CreateCourse from "./components/create-course/CreateCourse";
 import UpdateCourse from "./components/update-course/UpdateCourse";
@@ -15,6 +17,8 @@ import NotFound from "./components/NotFound";
 import withContext from "./Context";
 
 // Connect Course to context
+const HeaderWithContext = withContext(Header);
+const AuthWithContext = withContext(Authenticated);
 const CoursesWithContext = withContext(Courses);
 const UserSignUpWithContext = withContext(UserSignUp);
 const UserSignInWithContext = withContext(UserSignIn);
@@ -23,11 +27,12 @@ export default () => {
   return (
     <Router>
       <div>
-        <Header />
+        <HeaderWithContext />
 
         <Switch>
           {/* This Component will load the Courses and show them using the Courses Component  */}
           <Route exact path="/" component={CoursesWithContext} />
+          <PrivateRoute path="/authenticated" component={AuthWithContext} />
           <Route path="/course-detail" component={CourseDetail} />
           <Route path="/create-course" component={CreateCourse} />
           <Route path="/update-course" component={UpdateCourse} />

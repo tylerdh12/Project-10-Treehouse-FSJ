@@ -31,7 +31,8 @@ export default class Data {
     return fetch(url, options);
   }
 
-  async getUser(username, password) {
+  async getUser(emailAddress, password) {
+    let username = emailAddress;
     const response = await this.api("/users", "GET", null, true, {
       username,
       password
