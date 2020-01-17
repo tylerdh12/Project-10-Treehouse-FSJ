@@ -1,6 +1,6 @@
 import React from "react";
 
-const ActionsBar = () => {
+const ActionsBar = ({ context }) => {
   return (
     <div class="actions--bar">
       <div class="bounds">
@@ -9,7 +9,7 @@ const ActionsBar = () => {
             <a class="button" href="update-course">
               Update Course
             </a>
-            <a class="button" href="#">
+            <a class="button" href="{context.id}/delete">
               Delete Course
             </a>
           </span>
