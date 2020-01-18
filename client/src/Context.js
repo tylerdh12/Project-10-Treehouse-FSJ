@@ -30,7 +30,7 @@ export class Provider extends Component {
         // Sign Out function thru Actions
         signOut: this.signOut,
         // Get Courses function thru Actions
-        getCourses: this.getCourses
+        getAllCourses: this.getAllCourses
       }
     };
     return (
@@ -68,14 +68,12 @@ export class Provider extends Component {
   };
 
   // Gets the courses form DB
-  getCourses = async () => {
-    const courses = await this.getCourses();
+  getAllCourses = async () => {
+    const courses = await this.data.getCourses();
     if (courses !== null) {
-      this.setState(() => {
-        return {
-          courses
-        };
-      });
+      console.log(courses);
+    } else {
+      console.log("Database connection error");
     }
     return courses;
   };

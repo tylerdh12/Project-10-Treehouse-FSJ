@@ -6,7 +6,7 @@ const Details = () => {
       <div className="grid-66">
         <div className="course--header">
           <h4 className="course--label">Course</h4>
-          <h3 className="course--title">Build a Basic Bookcase</h3>
+          <h3 className="course--title">{this.props.title}</h3>
           <p>By Joe Smith</p>
         </div>
         <div className="course--description">
