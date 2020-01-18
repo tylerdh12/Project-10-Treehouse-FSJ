@@ -31,7 +31,6 @@ export default class Courses extends Component {
   }
 
   render() {
-    console.log(this.state.courses.map(course => console.log(course.title)));
     return (
       <div className="bounds">
         {this.state.courses.map(course => (
@@ -41,7 +40,7 @@ export default class Courses extends Component {
         <div className="grid-33">
           <a
             className="course--module course--add--module"
-            href="create-course"
+            href="courses/create"
           >
             <h3 className="course--add--title">
               <svg

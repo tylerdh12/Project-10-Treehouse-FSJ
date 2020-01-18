@@ -6,7 +6,7 @@ const ActionsBar = ({ context }) => {
       <div className="bounds">
         <div className="grid-100">
           <span>
-            <a className="button" href="update-course">
+            <a className="button" href="update">
               Update Course
             </a>
             <a className="button" href="{context.id}/delete">

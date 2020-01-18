@@ -24,12 +24,13 @@ class CourseDetail extends Component {
 
   state = {
     loading: true,
-    courseId: this.props.location.pathname.slice(15),
+    courseId: 1,
     course: {},
     errors: []
   };
 
   componentDidMount() {
+    console.log("Location URL:" + this.props.location.pathname);
     this.getCourse();
   }
 
@@ -49,7 +50,14 @@ class CourseDetail extends Component {
     );
   }
 
+  // getId() {
+  //   let courseIdParen = this.props.location;
+  //   let courseId = courseIdParen.replace("/", "");
+  //   return courseId;
+  // }
+
   async getCourse() {
+    console.log(this.props.location);
     const url = "/courses/" + this.state.courseId;
     const response = await this.api(url, "GET", null, true);
     if (response.status === 200) {
