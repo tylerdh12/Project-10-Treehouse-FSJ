@@ -7,7 +7,7 @@ import PrivateRoute from "./PrivateRoute";
 import Authenticated from "./components/user/Authenticated";
 import Courses from "./components/courses/Courses";
 import CreateCourse from "./components/create-course/CreateCourse";
-import UpdateCourse from "./components/update-course/UpdateCourse";
+import UpdateCourse from "./components/course-detail/update-course/UpdateCourse";
 import CourseDetail from "./components/course-detail/CourseDetail";
 import UserSignUp from "./components/user/UserSignUp";
 import UserSignIn from "./components/user/UserSignIn";
