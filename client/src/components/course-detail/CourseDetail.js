@@ -42,13 +42,7 @@ class CourseDetail extends Component {
         <Details
           course={this.state.course}
           owner={this.state.owner}
-          materialsNeeded={this.state.materialsNeeded}
           key={this.state.course.id}
-          // description={this.state.description}
-          // estimatedTime={this.state.estimatedTime}
-          // materialsNeeded={this.state.materialsNeeded}
-          // firstName={this.state.owner.firstName}
-          // lastName={this.state.owner.lastName}
         />
       </div>
     );
@@ -69,15 +63,7 @@ class CourseDetail extends Component {
       return response.json().then(data => {
         this.setState({
           course: data,
-          owner: data.owner,
-          materialsNeeded: data.materialsNeeded
-
-          // title: data.title,
-          // description: data.description,
-          // estimatedTime: data.estimatedTime,
-          // materialsNeeded: data.materialsNeeded,
-          // firstName: data.owner.firstName,
-          // lastName: data.owner.lastName
+          owner: data.owner
         });
       });
     } else if (response.status === 401) {
