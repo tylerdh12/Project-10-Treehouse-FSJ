@@ -21,14 +21,14 @@ const Header = props => {
               <span>
                 Welcome, {authUser.firstName} {authUser.lastName}!
               </span>
-              <Link to="/sign-out">Sign Out</Link>
+              <Link to="/signout">Sign Out</Link>
             </React.Fragment>
           ) : (
             <React.Fragment>
-              <a className="signup" href="sign-up">
+              <a className="signup" href="signup">
                 Sign Up
               </a>
-              <a className="signin" href="sign-in">
+              <a className="signin" href="signin">
                 Sign In
               </a>
             </React.Fragment>

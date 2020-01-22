@@ -37,11 +37,11 @@ export default () => {
           <PrivateRoute path="/authenticated" component={AuthWithContext} />
           <PrivateRoute path="/settings" component={AuthWithContext} />
           <PrivateRoute path="/courses/create" component={CreateCourse} />
-          <Route path="/courses/:id" component={CourseDetail} />
           <PrivateRoute path="/courses/:id/update" component={UpdateCourse} />
-          <Route path="/sign-up" component={UserSignUpWithContext} />
-          <Route path="/sign-in" component={UserSignInWithContext} />
-          <PrivateRoute path="/sign-out" component={UserSignOutWithContext} />
+          <Route path="/courses/:id" component={CourseDetail} />
+          <Route path="/signup" component={UserSignUpWithContext} />
+          <Route path="/signin" component={UserSignInWithContext} />
+          <PrivateRoute path="/signout" component={UserSignOutWithContext} />
           <Route component={NotFound} />
         </Switch>
       </div>

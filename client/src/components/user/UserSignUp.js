@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Form from "./Form";
 
-// This component provides the "Sign Up" screen by rendering a form that allows a 
+// This component provides the "Sign Up" screen by rendering a form that allows a
 // user to sign up by creating a new account. The component also renders a "Sign Up"
-// button that when clicked sends a POST request to the REST API's /api/users route 
-// and signs in the user. This component also renders a "Cancel" button that returns 
+// button that when clicked sends a POST request to the REST API's /api/users route
+// and signs in the user. This component also renders a "Cancel" button that returns
 // the user to the default route (i.e. the list of courses).
 
 export default class UserSignUp extends Component {
@@ -83,8 +83,8 @@ export default class UserSignUp extends Component {
           />
           <p>&nbsp;</p>
           <p>
-            Already have a user account? <Link to="/sign-in">Click here</Link>{" "}
-            to sign in!
+            Already have a user account? <Link to="/signin">Click here</Link> to
+            sign in!
           </p>
         </div>
       </div>
@@ -127,9 +127,9 @@ export default class UserSignUp extends Component {
         if (errors.length) {
           this.setState({ errors });
         } else {
-          context.actions.signIn(emailAddress, password).then(()=> {
-            this.props.history.push('/authenticated')
-          })
+          context.actions.signIn(emailAddress, password).then(() => {
+            this.props.history.push("/authenticated");
+          });
         }
       })
       .catch(err => {
