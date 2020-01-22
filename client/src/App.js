@@ -41,7 +41,7 @@ export default () => {
           <PrivateRoute path="/courses/:id/update" component={UpdateCourse} />
           <Route path="/sign-up" component={UserSignUpWithContext} />
           <Route path="/sign-in" component={UserSignInWithContext} />
-          <Route path="/sign-out" component={UserSignOutWithContext} />
+          <PrivateRoute path="/sign-out" component={UserSignOutWithContext} />
           <Route component={NotFound} />
         </Switch>
       </div>

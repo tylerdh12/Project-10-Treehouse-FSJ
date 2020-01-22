@@ -38,7 +38,7 @@ class CourseDetail extends Component {
   render() {
     return (
       <div>
-        <ActionsBar />
+        <ActionsBar id={this.state.course.id} />
         <Details
           course={this.state.course}
           owner={this.state.owner}
