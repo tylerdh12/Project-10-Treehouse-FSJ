@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import config from "../../config";
+import withContext from "./../../Context";
 
 // This component provides the "Course Detail" screen by retrieving the detail
 // for a course from the REST API's /api/courses/:id route and rendering the course.
@@ -11,6 +12,10 @@ import config from "../../config";
 // Import Actions--Bar Component
 import ActionsBar from "./ActionsBar";
 import Details from "./Details";
+
+//Adds context for Auth User to make dynamic buttons for Action Bar
+const ActionsBarWithContext = withContext(ActionsBar);
+
 class CourseDetail extends Component {
   api(path, method = "GET", body = null) {
     const url = config.apiBaseUrl + path;
@@ -45,7 +50,10 @@ class CourseDetail extends Component {
   render() {
     return (
       <div>
-        <ActionsBar id={this.state.course.id} />
+        <ActionsBarWithContext
+          courseId={this.state.course.id}
+          ownerId={this.state.owner.id}
+        />
         <Details
           course={this.state.course}
           owner={this.state.owner}
