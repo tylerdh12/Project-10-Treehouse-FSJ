@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import config from "./../../config";
 import Form from "./Form";
 
 // This component provides the "Update Course" screen by rendering a form
@@ -8,16 +9,42 @@ import Form from "./Form";
 // renders a "Cancel" button that returns the user to the "Course Detail" screen.
 
 export default class UpdateCourse extends Component {
+  api(path, method = "GET", body = null) {
+    const url = config.apiBaseUrl + path;
+    const options = {
+      method,
+      headers: {
+        "Content-Type": "application/json; charset=utf-8"
+      }
+    };
+
+    if (body !== null) {
+      options.body = JSON.stringify(body);
+    }
+
+    return fetch(url, options);
+  }
+
   state = {
-    title: "",
-    description: "",
-    hours: "",
-    materials: "",
+    course: {},
+    owner: {},
     errors: []
   };
 
+  componentDidMount() {
+    this.getId();
+    this.getCourse();
+  }
+
   render() {
-    const { title, description, hours, materials, errors } = this.state;
+    const {
+      title,
+      description,
+      estimatedTime,
+      materialsNeeded,
+      errors
+    } = this.state.course;
+    const { firstName, lastName } = this.state.owner;
 
     return (
       <div className="bounds course--detail">
@@ -27,7 +54,7 @@ export default class UpdateCourse extends Component {
             cancel={this.cancel}
             errors={errors}
             submit={this.submit}
-            submitButtonText="Create Course"
+            submitButtonText="Update Course"
             elements={() => (
               <React.Fragment>
                 <div className="grid-66">
@@ -43,7 +70,9 @@ export default class UpdateCourse extends Component {
                         onChange={this.change}
                         placeholder="Title"
                       />
-                      <p>By User Name</p>
+                      <p>
+                        By {firstName} {lastName}
+                      </p>
                     </div>
                   </div>
                   <div className="course--description">
@@ -69,7 +98,7 @@ export default class UpdateCourse extends Component {
                             id="hours"
                             name="hours"
                             type="text"
-                            value={hours}
+                            value={estimatedTime}
                             onChange={this.change}
                             placeholder="Hours"
                           />
@@ -82,7 +111,7 @@ export default class UpdateCourse extends Component {
                             id="materials"
                             name="materials"
                             type="textarea"
-                            value={materials}
+                            value={materialsNeeded}
                             onChange={this.change}
                             placeholder="Materials"
                           />
@@ -133,4 +162,29 @@ export default class UpdateCourse extends Component {
   cancel = () => {
     this.props.history.push("/"); // redirect to main page
   };
+
+  async getId() {
+    let courseIdParen = await this.props.location.pathname;
+    let courseId = await courseIdParen.replace("/courses/", "");
+    this.setState({
+      courseId: courseId
+    });
+  }
+
+  async getCourse() {
+    const url = "/courses/" + this.props.match.params.id;
+    const response = await this.api(url, "GET", null, true);
+    if (response.status === 200) {
+      return response.json().then(data => {
+        this.setState({
+          course: data,
+          owner: data.owner
+        });
+      });
+    } else if (response.status === 401) {
+      return null;
+    } else {
+      throw new Error();
+    }
+  }
 }

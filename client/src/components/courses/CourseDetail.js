@@ -30,7 +30,7 @@ class CourseDetail extends Component {
 
   state = {
     loading: true,
-    courseId: 1,
+    courseId: null,
     course: [],
     owner: [],
     materialsNeeded: [],
