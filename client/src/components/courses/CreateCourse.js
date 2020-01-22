@@ -1,7 +1,13 @@
 import React, { Component } from "react";
 import Form from "./Form";
 
-export default class UpdateCourse extends Component {
+// This component provides the "Create Course" screen by rendering a form that
+// allows a user to create a new course. The component also renders a
+// "Create Course" button that when clicked sends a POST request to the
+// REST API's /api/courses route. This component also renders a "Cancel"
+// button that returns the user to the default route (i.e. the list of courses).
+
+export default class CreateCourse extends Component {
   state = {
     title: "",
     description: "",
@@ -15,7 +21,7 @@ export default class UpdateCourse extends Component {
 
     return (
       <div className="bounds course--detail">
-        <h1>Update Course</h1>
+        <h1>Create Course</h1>
         <div>
           <Form
             cancel={this.cancel}
