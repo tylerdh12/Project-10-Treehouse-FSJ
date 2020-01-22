@@ -1,7 +1,7 @@
-import React, { PureComponent } from "react";
+import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
-export default class Header extends PureComponent {
+export default class Header extends Component {
   render() {
     const { context } = this.props;
     const authUser = context.authenticatedUser;

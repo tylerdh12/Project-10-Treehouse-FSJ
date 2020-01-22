@@ -48,6 +48,13 @@ class CourseDetail extends Component {
     );
   }
 
+  async creatList() {
+    let materialsList = this.state.course.materialsNeeded.split("\n");
+    this.setState(() => {
+      return { materialsNeeded: materialsList };
+    });
+  }
+
   async getId() {
     let courseIdParen = await this.props.location.pathname;
     let courseId = await courseIdParen.replace("/courses/", "");

@@ -1,17 +1,15 @@
-import React, { PureComponent } from "react";
+import React, { Component } from "react";
+import ReactMarkdown from "react-markdown";
 
-export default class Details extends PureComponent {
+export default class Details extends Component {
   render() {
-    const materialsNeeded =
-      "* 1/2 x 3/4 inch parting strip * 1 x 2 common pine * 1 x 4 common pine * 1 x 10 common pine * 1/4 inch thick lauan plywood * Finishing Nails * Sandpaper * Wood Glue * Wood Filler * Minwax Oil Based Polyurethane";
-    const { title, description, estimatedTime } = this.props.course;
+    const {
+      title,
+      description,
+      estimatedTime,
+      materialsNeeded
+    } = this.props.course;
     const { firstName, lastName } = this.props.owner;
-
-    let newList = materialsNeeded.split("* ").map((item, index) => {
-      if (item !== "") {
-        return <li key={index}>{item}</li>;
-      }
-    });
 
     return (
       <div className="bounds course--detail">
@@ -24,7 +22,7 @@ export default class Details extends PureComponent {
             </p>
           </div>
           <div className="course--description">
-            <p>{description}</p>
+            <ReactMarkdown source={description} />
           </div>
         </div>
         <div className="grid-25 grid-right">
@@ -36,7 +34,9 @@ export default class Details extends PureComponent {
               </li>
               <li className="course--stats--list--item">
                 <h4>Materials Needed</h4>
-                <ul>{newList}</ul>
+                <ul>
+                  <ReactMarkdown source={materialsNeeded} />
+                </ul>
               </li>
             </ul>
           </div>
