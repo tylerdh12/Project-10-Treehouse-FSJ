@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import * as React from "react";
 import config from "../../config";
 import withContext from "./../../Context";
 
@@ -16,13 +16,34 @@ import Details from "./Details";
 //Adds context for Auth User to make dynamic buttons for Action Bar
 const ActionsBarWithContext = withContext(ActionsBar);
 
-class CourseDetail extends Component {
+class CourseDetail extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: true,
+      courseId: null,
+      course: [],
+      owner: [],
+      materialsNeeded: [],
+      errors: []
+    };
+  }
+
   api(path, method = "GET", body = null) {
+    const { context } = this.props;
+
     const url = config.apiBaseUrl + path;
     const options = {
       method,
       headers: {
-        "Content-Type": "application/json; charset=utf-8"
+        "Content-Type": "application/json; charset=utf-8",
+        Authorization:
+          "Basic " +
+          btoa(
+            context.authenticatedUser.emailAddress +
+              ":" +
+              context.authenticatedUser.password
+          )
       }
     };
 
@@ -32,15 +53,6 @@ class CourseDetail extends Component {
 
     return fetch(url, options);
   }
-
-  state = {
-    loading: true,
-    courseId: null,
-    course: [],
-    owner: [],
-    materialsNeeded: [],
-    errors: []
-  };
 
   componentDidMount() {
     this.getId();

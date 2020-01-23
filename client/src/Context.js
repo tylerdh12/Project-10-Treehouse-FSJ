@@ -7,14 +7,12 @@ import Data from "./Data";
 const Context = React.createContext();
 
 export class Provider extends Component {
-  state = {
-    // Pulls cookie for use as login info or sets it as null if no cookie
-    authenticatedUser: Cookies.getJSON("authenticatedUser") || null
-  };
-
   constructor() {
     super();
     this.data = new Data();
+    this.state = {
+      authenticatedUser: Cookies.getJSON("authenticatedUser") || null
+    };
   }
 
   render() {
@@ -30,7 +28,11 @@ export class Provider extends Component {
         // Sign Out function thru Actions
         signOut: this.signOut,
         // Get Courses function thru Actions
-        getAllCourses: this.getAllCourses
+        getAllCourses: this.getAllCourses,
+        // Create Course function thru Actions
+        createCourse: this.createCourse,
+        // Delete Course function thu Actions
+        deleteCourse: this.deleteCourse
       }
     };
     return (
@@ -52,7 +54,10 @@ export class Provider extends Component {
       });
       // Sets the User Obj as a cookie to recall for state and sets an expiration of: 1 Day
       // (use https://github.com/js-cookie/js-cookie/wiki/Frequently-Asked-Questions as ref for cookie expire )
-      Cookies.set("authenticatedUser", JSON.stringify(user), { expires: 1 });
+      Cookies.set("authenticatedUser", JSON.stringify(user), {
+        expires: 1
+      });
+      Cookies.set("password", password);
     }
     // Returns user Obj
     return user;
@@ -65,18 +70,10 @@ export class Provider extends Component {
       return { authenticatedUser: null };
     });
     Cookies.remove("authenticatedUser");
+    Cookies.remove("password");
   };
 
-  // Gets the courses form DB
-  getAllCourses = async () => {
-    const courses = await this.data.getCourses();
-    if (courses !== null) {
-      console.log(courses);
-    } else {
-      console.log("Database connection error");
-    }
-    return courses;
-  };
+  
 }
 
 export const Consumer = Context.Consumer;

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Form from "./Form";
+import Cookies from "js-cookie";
 
 // This component provides the "Create Course" screen by rendering a form that
 // allows a user to create a new course. The component also renders a
@@ -8,16 +9,39 @@ import Form from "./Form";
 // button that returns the user to the default route (i.e. the list of courses).
 
 export default class CreateCourse extends Component {
-  state = {
-    title: "",
-    description: "",
-    hours: "",
-    materials: "",
-    errors: []
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      userId: null,
+      title: "",
+      description: "",
+      estimatedTime: "",
+      materials: "",
+      errors: []
+    };
+  }
+
+  componentDidMount() {
+    this.setAuth();
+  }
+
+  setAuth() {
+    const { context } = this.props;
+    const authId = context.authenticatedUser.userId;
+    this.setState({
+      userId: authId,
+      emailAddress: context.authenticatedUser.emailAddress
+    });
+  }
 
   render() {
-    const { title, description, hours, materials, errors } = this.state;
+    const {
+      title,
+      description,
+      estimatedTime,
+      materialsNeeded,
+      errors
+    } = this.state;
 
     return (
       <div className="bounds course--detail">
@@ -66,10 +90,10 @@ export default class CreateCourse extends Component {
                         <h4>Estimated Time</h4>
                         <div>
                           <input
-                            id="hours"
-                            name="hours"
+                            id="estimatedTime"
+                            name="estimatedTime"
                             type="text"
-                            value={hours}
+                            value={estimatedTime}
                             onChange={this.change}
                             placeholder="Hours"
                           />
@@ -80,9 +104,9 @@ export default class CreateCourse extends Component {
                         <div>
                           <textarea
                             id="materials"
-                            name="materials"
+                            name="materialsNeeded"
                             type="textarea"
-                            value={materials}
+                            value={materialsNeeded}
                             onChange={this.change}
                             placeholder="Materials"
                           />
@@ -111,13 +135,28 @@ export default class CreateCourse extends Component {
 
   submit = () => {
     const { context } = this.props;
-    const { title, description, hours, materials } = this.state;
+
+    const {
+      title,
+      description,
+      estimatedTime,
+      materialsNeeded,
+      userId
+    } = this.state;
 
     //new user payload
-    const course = { title, description, hours, materials };
+    const course = {
+      title,
+      description,
+      estimatedTime,
+      materialsNeeded,
+      userId
+    };
+
+    console.log(course);
 
     context.data
-      .createUser(course)
+      .createCourse(course, this.state.emailAddress, Cookies.get("password"))
       .then(errors => {
         if (errors.length) {
           this.setState({ errors });
@@ -133,4 +172,6 @@ export default class CreateCourse extends Component {
   cancel = () => {
     this.props.history.push("/"); // redirect to main page
   };
+
+  validationErrors() {}
 }
