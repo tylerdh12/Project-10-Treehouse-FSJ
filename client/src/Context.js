@@ -73,7 +73,9 @@ export class Provider extends Component {
     Cookies.remove("password");
   };
 
-  
+  deleteCourse = (courseId, emailAddress, password) => {
+    this.data.deleteCourse(courseId, emailAddress, password);
+  };
 }
 
 export const Consumer = Context.Consumer;

@@ -1,8 +1,36 @@
 import React from "react";
+import Cookies from "js-cookie";
 
 const ActionBar = props => {
   const { context } = props;
   const authUser = context.authenticatedUser;
+
+  const { deleteCourse } = props.context.actions;
+
+  function handleDelete(event) {
+    event.preventDefault();
+    deleteCourse(
+      props.courseId,
+      authUser.emailAddress,
+      Cookies.get("password")
+    );
+  }
+
+  function ifAuth(props) {
+    if (authUser.userId === props.ownerId) {
+      return (
+        <span>
+          <a className="button" href={props.courseId + "/update"}>
+            Update Course
+          </a>
+          <a className="button" onClick={handleDelete} href="/">
+            Delete Course
+          </a>
+        </span>
+      );
+    }
+  }
+
   return (
     <div className="actions--bar">
       <div className="bounds">
@@ -15,21 +43,6 @@ const ActionBar = props => {
       </div>
     </div>
   );
-
-  function ifAuth(props) {
-    if (authUser.userId === props.ownerId) {
-      return (
-        <span>
-          <a className="button" href={props.courseId + "/update"}>
-            Update Course
-          </a>
-          <a className="button" href={props.courseId + "/delete"}>
-            Delete Course
-          </a>
-        </span>
-      );
-    }
-  }
 };
 
 export default ActionBar;

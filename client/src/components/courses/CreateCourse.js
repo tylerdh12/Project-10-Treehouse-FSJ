@@ -16,7 +16,7 @@ export default class CreateCourse extends Component {
       title: "",
       description: "",
       estimatedTime: "",
-      materials: "",
+      materialsNeeded: "",
       errors: []
     };
   }
@@ -33,6 +33,56 @@ export default class CreateCourse extends Component {
       emailAddress: context.authenticatedUser.emailAddress
     });
   }
+  change = event => {
+    const name = event.target.name;
+    const value = event.target.value;
+
+    this.setState(() => {
+      return {
+        [name]: value
+      };
+    });
+  };
+
+  submit = () => {
+    const { context } = this.props;
+
+    const {
+      title,
+      description,
+      estimatedTime,
+      materialsNeeded,
+      userId
+    } = this.state;
+
+    //new user payload
+    const course = {
+      title,
+      description,
+      estimatedTime,
+      materialsNeeded,
+      userId
+    };
+
+    console.log(course);
+
+    context.data
+      .createCourse(course, this.state.emailAddress, Cookies.get("password"))
+      .then(errors => {
+        if (errors.length) {
+          this.setState({ errors });
+        }
+      })
+      .catch(err => {
+        // handle rejected promises
+        console.log(err);
+        this.props.history.push("/error"); //push to history stack
+      });
+  };
+
+  cancel = () => {
+    this.props.history.push("/"); // redirect to main page
+  };
 
   render() {
     const {
@@ -122,56 +172,4 @@ export default class CreateCourse extends Component {
       </div>
     );
   }
-  change = event => {
-    const name = event.target.name;
-    const value = event.target.value;
-
-    this.setState(() => {
-      return {
-        [name]: value
-      };
-    });
-  };
-
-  submit = () => {
-    const { context } = this.props;
-
-    const {
-      title,
-      description,
-      estimatedTime,
-      materialsNeeded,
-      userId
-    } = this.state;
-
-    //new user payload
-    const course = {
-      title,
-      description,
-      estimatedTime,
-      materialsNeeded,
-      userId
-    };
-
-    console.log(course);
-
-    context.data
-      .createCourse(course, this.state.emailAddress, Cookies.get("password"))
-      .then(errors => {
-        if (errors.length) {
-          this.setState({ errors });
-        }
-      })
-      .catch(err => {
-        // handle rejected promises
-        console.log(err);
-        this.props.history.push("/error"); //push to history stack
-      });
-  };
-
-  cancel = () => {
-    this.props.history.push("/"); // redirect to main page
-  };
-
-  validationErrors() {}
 }
