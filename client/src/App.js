@@ -6,7 +6,6 @@ import Header from "./components/Header";
 import PrivateRoute from "./PrivateRoute";
 import Authenticated from "./components/user/Authenticated";
 import Courses from "./components/courses/Courses";
-import DeleteCourse from "./components/courses/DeleteCourse";
 import CreateCourse from "./components/courses/CreateCourse";
 import UpdateCourse from "./components/courses/UpdateCourse";
 import CourseDetail from "./components/courses/CourseDetail";
@@ -48,7 +47,6 @@ export default () => {
             path="/courses/:id/update"
             component={UpdateCourseWithContext}
           />
-          <privateRoute path="courses/:id/delete" component={DeleteCourse} />
           <Route path="/courses/:id" component={CourseDetailWithContext} />
           <Route path="/signup" component={UserSignUpWithContext} />
           <Route path="/signin" component={UserSignInWithContext} />
