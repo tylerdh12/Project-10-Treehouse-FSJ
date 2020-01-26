@@ -1,4 +1,6 @@
+import React from "react";
 import config from "./config";
+import { Redirect } from "react-router-dom";
 
 export default class Data {
   api(
@@ -111,7 +113,7 @@ export default class Data {
       }
     );
     if (response.status === 204) {
-      console.log("Course Has Been Deleted");
+      return <Redirect to={{ pathname: "/" }} />;
     } else if (response.status === 401) {
       return null;
     } else {

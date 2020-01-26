@@ -30,20 +30,11 @@ class CourseDetail extends React.Component {
   }
 
   api(path, method = "GET", body = null) {
-    const { context } = this.props;
-
     const url = config.apiBaseUrl + path;
     const options = {
       method,
       headers: {
-        "Content-Type": "application/json; charset=utf-8",
-        Authorization:
-          "Basic " +
-          btoa(
-            context.authenticatedUser.emailAddress +
-              ":" +
-              context.authenticatedUser.password
-          )
+        "Content-Type": "application/json; charset=utf-8"
       }
     };
 

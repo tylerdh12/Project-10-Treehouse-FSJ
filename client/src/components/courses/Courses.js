@@ -8,6 +8,14 @@ import config from "../../config";
 // This component also renders a link to the "Create Course" screen.
 
 export default class Courses extends Component {
+  constructor() {
+    super();
+    this.state = {
+      loading: true,
+      courses: [],
+      errors: []
+    };
+  }
   api(path, method = "GET", body = null) {
     const url = config.apiBaseUrl + path;
 
@@ -24,12 +32,6 @@ export default class Courses extends Component {
 
     return fetch(url, options);
   }
-
-  state = {
-    loading: true,
-    courses: [],
-    errors: []
-  };
 
   componentDidMount() {
     this.getCourses();

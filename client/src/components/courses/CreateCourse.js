@@ -12,7 +12,7 @@ export default class CreateCourse extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userId: null,
+      userId: "",
       title: "",
       description: "",
       estimatedTime: "",
@@ -63,21 +63,9 @@ export default class CreateCourse extends Component {
       materialsNeeded,
       userId
     };
-
-    console.log(course);
-
     context.data
       .createCourse(course, this.state.emailAddress, Cookies.get("password"))
-      .then(errors => {
-        if (errors.length) {
-          this.setState({ errors });
-        }
-      })
-      .catch(err => {
-        // handle rejected promises
-        console.log(err);
-        this.props.history.push("/error"); //push to history stack
-      });
+      .then(this.props.history.push("/"));
   };
 
   cancel = () => {

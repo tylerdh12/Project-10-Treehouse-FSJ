@@ -11,10 +11,19 @@ import Form from "./Form";
 export default class UpdateCourse extends Component {
   api(path, method = "GET", body = null) {
     const url = config.apiBaseUrl + path;
+    const { context } = this.props;
+
     const options = {
       method,
       headers: {
-        "Content-Type": "application/json; charset=utf-8"
+        "Content-Type": "application/json; charset=utf-8",
+        Authorization:
+          "Basic " +
+          btoa(
+            context.authenticatedUser.emailAddress +
+              ":" +
+              context.authenticatedUser.password
+          )
       }
     };
 

@@ -17,13 +17,15 @@ const ActionBar = props => {
   }
 
   function ifAuth(props) {
-    if (authUser.userId === props.ownerId) {
+    if (!authUser) {
+      return null;
+    } else if (authUser.userId === props.ownerId) {
       return (
         <span>
           <a className="button" href={props.courseId + "/update"}>
             Update Course
           </a>
-          <a className="button" onClick={handleDelete} href="/">
+          <a className="button" href="/" onClick={handleDelete}>
             Delete Course
           </a>
         </span>
