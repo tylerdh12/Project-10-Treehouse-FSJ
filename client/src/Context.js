@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 // Allows us to save cookies for User Login
 import Cookies from "js-cookie";
 // Import the data Connection
@@ -6,7 +6,7 @@ import Data from "./Data";
 // Allows us to access props thru context
 const Context = React.createContext();
 
-export class Provider extends Component {
+export class Provider extends React.Component {
   constructor() {
     super();
     this.data = new Data();

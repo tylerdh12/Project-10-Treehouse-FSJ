@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import Course from "./Course";
 import config from "../../config";
 
@@ -7,7 +7,7 @@ import config from "../../config";
 // Each course needs to link to its respective "Course Detail" screen.
 // This component also renders a link to the "Create Course" screen.
 
-export default class Courses extends Component {
+export default class Courses extends React.Component {
   constructor() {
     super();
     this.state = {

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import Form from "./Form";
 
@@ -8,7 +8,7 @@ import Form from "./Form";
 // and signs in the user. This component also renders a "Cancel" button that returns
 // the user to the default route (i.e. the list of courses).
 
-export default class UserSignUp extends Component {
+export default class UserSignUp extends React.Component {
   state = {
     firstName: "",
     lastName: "",

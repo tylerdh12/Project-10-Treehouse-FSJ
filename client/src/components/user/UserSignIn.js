@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import Form from "./Form";
 
 // This component provides the "Course Detail" screen by retrieving the detail for a
@@ -8,7 +8,7 @@ import Form from "./Form";
 // This component also renders an "Update Course" button for navigating to the
 // "Update Course" screen.
 
-export default class UserSignIn extends Component {
+export default class UserSignIn extends React.Component {
   state = {
     emailAddress: "",
     password: "",

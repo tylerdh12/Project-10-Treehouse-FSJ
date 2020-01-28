@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import Form from "./Form";
 import Cookies from "js-cookie";
 
@@ -8,11 +8,10 @@ import Cookies from "js-cookie";
 // REST API's /api/courses route. This component also renders a "Cancel"
 // button that returns the user to the default route (i.e. the list of courses).
 
-export default class CreateCourse extends Component {
+export default class CreateCourse extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userId: "",
       title: "",
       description: "",
       estimatedTime: "",
@@ -55,7 +54,7 @@ export default class CreateCourse extends Component {
       userId
     } = this.state;
 
-    //new user payload
+    //new course payload
     const course = {
       title,
       description,
@@ -85,6 +84,7 @@ export default class CreateCourse extends Component {
       <div className="bounds course--detail">
         <h1>Create Course</h1>
         <div>
+          <ErrorsDisplay errors={this.state.errors} />
           <Form
             cancel={this.cancel}
             errors={errors}
@@ -161,3 +161,20 @@ export default class CreateCourse extends Component {
     );
   }
 }
+
+const ErrorsDisplay = ({ errors = {} }) => {
+  if (Object.keys(errors).length <= 0) return null;
+
+  return (
+    <div>
+      <h2 className="validation--errors--label">Validation errors</h2>
+      <div className="validation-errors">
+        <ul>
+          {Object.values(errors).map(message => (
+            <li key={message}>{message}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+};

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import config from "./../../config";
 import Form from "./Form";
 
@@ -8,7 +8,7 @@ import Form from "./Form";
 // request to the REST API's /api/courses/:id route. This component also
 // renders a "Cancel" button that returns the user to the "Course Detail" screen.
 
-export default class UpdateCourse extends Component {
+export default class UpdateCourse extends React.Component {
   api(path, method = "GET", body = null) {
     const url = config.apiBaseUrl + path;
     const { context } = this.props;
