@@ -79,7 +79,7 @@ export default class Data {
       password
     });
     if (response.status === 201) {
-      console.log("Course Has Been Created");
+      return [];
     } else if (response.status === 400) {
       return response.json().then(data => {
         return data.errors;
