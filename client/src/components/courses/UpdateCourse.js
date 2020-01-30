@@ -9,6 +9,24 @@ import Form from "./Form";
 // renders a "Cancel" button that returns the user to the "Course Detail" screen.
 
 export default class UpdateCourse extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      course: {},
+      title: "",
+      description: "",
+      estimatedTime: "",
+      materialsNeeded: "",
+      owner: {},
+      errors: []
+    };
+  }
+
+  componentDidMount() {
+    this.getId();
+    this.getCourse();
+  }
+
   api(path, method = "GET", body = null) {
     const url = config.apiBaseUrl + path;
     const { context } = this.props;
@@ -34,15 +52,33 @@ export default class UpdateCourse extends React.Component {
     return fetch(url, options);
   }
 
-  state = {
-    course: {},
-    owner: {},
-    errors: []
-  };
+  async getId() {
+    let courseIdParen = await this.props.location.pathname;
+    let courseId = await courseIdParen.replace("/courses/", "");
+    this.setState({
+      courseId: courseId
+    });
+  }
 
-  componentDidMount() {
-    this.getId();
-    this.getCourse();
+  async getCourse() {
+    const url = "/courses/" + this.props.match.params.id;
+    const response = await this.api(url, "GET", null, true);
+    if (response.status === 200) {
+      return response.json().then(data => {
+        this.setState({
+          course: data,
+          owner: data.owner,
+          title: data.title,
+          description: data.description,
+          estimatedTime: data.estimatedTime,
+          materialsNeeded: data.materialsNeeded
+        });
+      });
+    } else if (response.status === 401) {
+      return null;
+    } else {
+      throw new Error();
+    }
   }
 
   render() {
@@ -52,7 +88,8 @@ export default class UpdateCourse extends React.Component {
       estimatedTime,
       materialsNeeded,
       errors
-    } = this.state.course;
+    } = this.state;
+
     const { firstName, lastName } = this.state.owner;
 
     return (
@@ -104,8 +141,8 @@ export default class UpdateCourse extends React.Component {
                         <h4>Estimated Time</h4>
                         <div>
                           <input
-                            id="hours"
-                            name="hours"
+                            id="estimatedTime"
+                            name="estimatedTime"
                             type="text"
                             value={estimatedTime}
                             onChange={this.change}
@@ -117,8 +154,8 @@ export default class UpdateCourse extends React.Component {
                         <h4>Materials Needed</h4>
                         <div>
                           <textarea
-                            id="materials"
-                            name="materials"
+                            id="materialsNeeded"
+                            name="materialsNeeded"
                             type="textarea"
                             value={materialsNeeded}
                             onChange={this.change}
@@ -171,29 +208,4 @@ export default class UpdateCourse extends React.Component {
   cancel = () => {
     this.props.history.push("/"); // redirect to main page
   };
-
-  async getId() {
-    let courseIdParen = await this.props.location.pathname;
-    let courseId = await courseIdParen.replace("/courses/", "");
-    this.setState({
-      courseId: courseId
-    });
-  }
-
-  async getCourse() {
-    const url = "/courses/" + this.props.match.params.id;
-    const response = await this.api(url, "GET", null, true);
-    if (response.status === 200) {
-      return response.json().then(data => {
-        this.setState({
-          course: data,
-          owner: data.owner
-        });
-      });
-    } else if (response.status === 401) {
-      return null;
-    } else {
-      throw new Error();
-    }
-  }
 }
