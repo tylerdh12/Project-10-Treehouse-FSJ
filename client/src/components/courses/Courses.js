@@ -16,22 +16,6 @@ export default class Courses extends React.Component {
       errors: []
     };
   }
-  api(path, method = "GET", body = null) {
-    const url = config.apiBaseUrl + path;
-
-    const options = {
-      method,
-      headers: {
-        "Content-Type": "application/json; charset=utf-8"
-      }
-    };
-
-    if (body !== null) {
-      options.body = JSON.stringify(body);
-    }
-
-    return fetch(url, options);
-  }
 
   componentDidMount() {
     this.getCourses();
@@ -68,18 +52,19 @@ export default class Courses extends React.Component {
     );
   }
 
-  async getCourses() {
-    const response = await this.api("/courses", "GET", null, true);
-    if (response.status === 200) {
-      return response.json().then(data => {
-        return this.setState({
+  getCourses() {
+    fetch(config.apiBaseUrl + "/courses")
+      .then(res => {
+        if (res.status === 500) {
+          this.props.history.push("/error");
+        } else {
+          return res.json();
+        }
+      })
+      .then(data => {
+        this.setState({
           courses: data
         });
       });
-    } else if (response.status === 401) {
-      return null;
-    } else {
-      throw new Error();
-    }
   }
 }

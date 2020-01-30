@@ -29,32 +29,42 @@ class CourseDetail extends React.Component {
     };
   }
 
-  api(path, method = "GET", body = null) {
-    const url = config.apiBaseUrl + path;
-    const options = {
-      method,
-      headers: {
-        "Content-Type": "application/json; charset=utf-8"
-      }
-    };
-
-    if (body !== null) {
-      options.body = JSON.stringify(body);
-    }
-
-    return fetch(url, options);
+  componentDidMount() {
+    this.getCourse();
   }
 
-  componentDidMount() {
-    this.getId();
-    this.getCourse();
+  async getCourse() {
+    let courseIdParen = await this.props.location.pathname;
+    let courseId = await courseIdParen.replace("/courses/", "");
+    this.setState({
+      courseId: courseId
+    });
+
+    await fetch(config.apiBaseUrl + "/courses/" + this.state.courseId)
+      .then(res => {
+        if (res.status === 500) {
+          this.props.history.push("/error");
+        } else {
+          return res.json();
+        }
+      })
+      .then(data => {
+        if (data === null) {
+          this.props.history.push("/notfound");
+        } else {
+          this.setState({
+            course: data,
+            owner: data.owner
+          });
+        }
+      });
   }
 
   render() {
     return (
       <div>
         <ActionsBarWithContext
-          courseId={this.state.course.id}
+          courseId={this.state.courseId}
           ownerId={this.state.owner.id}
         />
         <Details
@@ -64,38 +74,6 @@ class CourseDetail extends React.Component {
         />
       </div>
     );
-  }
-
-  async creatList() {
-    let materialsList = this.state.course.materialsNeeded.split("\n");
-    this.setState(() => {
-      return { materialsNeeded: materialsList };
-    });
-  }
-
-  async getId() {
-    let courseIdParen = await this.props.location.pathname;
-    let courseId = await courseIdParen.replace("/courses/", "");
-    this.setState({
-      courseId: courseId
-    });
-  }
-
-  async getCourse() {
-    const url = "/courses/" + this.props.match.params.id;
-    const response = await this.api(url, "GET", null, true);
-    if (response.status === 200) {
-      return response.json().then(data => {
-        this.setState({
-          course: data,
-          owner: data.owner
-        });
-      });
-    } else if (response.status === 401) {
-      return null;
-    } else {
-      throw new Error();
-    }
   }
 }
 

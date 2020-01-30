@@ -5,15 +5,34 @@ const ActionBar = props => {
   const { context } = props;
   const authUser = context.authenticatedUser;
 
-  const { deleteCourse } = props.context.actions;
-
   function handleDelete(event) {
     event.preventDefault();
-    deleteCourse(
-      props.courseId,
-      authUser.emailAddress,
-      Cookies.get("password")
-    );
+    courseDelete(props);
+  }
+  async function courseDelete(props) {
+    const { context } = props;
+    await fetch(`//localhost:5000/api/courses/${props.courseId}`, {
+      method: "DELETE",
+      headers: new Headers({
+        Authorization:
+          "Basic " +
+          btoa(
+            context.authenticatedUser.emailAddress +
+              ":" +
+              Cookies.get("password")
+          )
+      })
+    }).then(res => {
+      if (res.status === 204) {
+        console.log("Course Deleted " + res.status);
+      } else if (res.status === 400) {
+        this.props.history.push("/forbidden");
+      } else if (res.status === 500) {
+        this.props.history.push("/error");
+      } else {
+        window.alert("Sorry, could not delete the course!");
+      }
+    });
   }
 
   function ifAuth(props) {
