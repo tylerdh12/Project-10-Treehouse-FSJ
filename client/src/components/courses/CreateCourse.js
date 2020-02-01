@@ -1,6 +1,7 @@
 import React from "react";
 import Form from "./Form";
 import Cookies from "js-cookie";
+import config from "../../config";
 
 // This component provides the "Create Course" screen by rendering a form that
 // allows a user to create a new course. The component also renders a
@@ -16,6 +17,7 @@ export default class CreateCourse extends React.Component {
       description: "",
       estimatedTime: "",
       materialsNeeded: "",
+      userId: "",
       errors: []
     };
   }
@@ -24,14 +26,19 @@ export default class CreateCourse extends React.Component {
     this.setAuth();
   }
 
+  // Sets the authenticated user values into State
   setAuth() {
     const { context } = this.props;
     const authId = context.authenticatedUser.userId;
     this.setState({
       userId: authId,
-      emailAddress: context.authenticatedUser.emailAddress
+      emailAddress: context.authenticatedUser.emailAddress,
+      firstName: context.authenticatedUser.firstName,
+      lastName: context.authenticatedUser.lastName
     });
   }
+
+  // Sets the state of the values entered into the textboxes
   change = event => {
     const name = event.target.name;
     const value = event.target.value;
@@ -43,28 +50,38 @@ export default class CreateCourse extends React.Component {
     });
   };
 
-  submit = () => {
-    const { context } = this.props;
-
+  submit = async () => {
     const {
       title,
       description,
       estimatedTime,
       materialsNeeded,
+      emailAddress,
       userId
     } = this.state;
 
-    //new course payload
-    const course = {
-      title,
-      description,
-      estimatedTime,
-      materialsNeeded,
-      userId
-    };
-    context.data
-      .createCourse(course, this.state.emailAddress, Cookies.get("password"))
-      .then(this.props.history.push("/"));
+    await fetch(`${config.apiBaseUrl}/courses`, {
+      method: "POST",
+      body: JSON.stringify({
+        title,
+        description,
+        estimatedTime,
+        materialsNeeded,
+        userId
+      }),
+      headers: {
+        Authorization:
+          "Basic " + btoa(emailAddress + ":" + Cookies.get("password"))
+      }
+    })
+      .then(function(res) {
+        return res.json();
+      })
+      .then(function(data) {
+        return data.errors;
+      })
+      // .then(this.props.history.push("/"))
+      .catch(err => this.setState({ errors: err }));
   };
 
   cancel = () => {
@@ -77,6 +94,8 @@ export default class CreateCourse extends React.Component {
       description,
       estimatedTime,
       materialsNeeded,
+      firstName,
+      lastName,
       errors
     } = this.state;
 
@@ -105,7 +124,9 @@ export default class CreateCourse extends React.Component {
                         onChange={this.change}
                         placeholder="Title"
                       />
-                      <p>By User Name</p>
+                      <p>
+                        By: {firstName} {lastName}
+                      </p>
                     </div>
                   </div>
                   <div className="course--description">

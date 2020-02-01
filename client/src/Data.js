@@ -72,22 +72,23 @@ export default class Data {
     }
   }
 
-  async createCourse(course, emailAddress, password) {
-    const username = emailAddress;
-    const response = await this.api("/courses", "POST", course, true, {
-      username,
-      password
-    });
-    if (response.status === 201) {
-      return [];
-    } else if (response.status === 500) {
-      return response.json().then(data => {
-        return data.errors;
-      });
-    } else {
-      throw new Error();
-    }
-  }
+  // async createCourse(course, emailAddress, password) {
+  //   console.log("Calling Data function");
+  //   const username = emailAddress;
+  //   const response = await this.api("/courses", "POST", course, true, {
+  //     username,
+  //     password
+  //   });
+  //   if (response.status === 201) {
+  //     return [];
+  //   } else if (response.status === 500) {
+  //     return response.json().then(data => {
+  //       return data.errors;
+  //     });
+  //   } else {
+  //     throw new Error();
+  //   }
+  // }
 
   async getCourse(courseId) {
     const response = await this.api("/courses" + courseId, "GET", null, false);

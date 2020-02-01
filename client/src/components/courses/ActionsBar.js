@@ -1,5 +1,6 @@
 import React from "react";
 import Cookies from "js-cookie";
+import config from "../../config";
 
 const ActionBar = props => {
   const { context } = props;
@@ -11,7 +12,7 @@ const ActionBar = props => {
   }
   async function courseDelete(props) {
     const { context } = props;
-    await fetch(`//localhost:5000/api/courses/${props.courseId}`, {
+    await fetch(`${config.apiBaseUrl}/courses/${props.courseId}`, {
       method: "DELETE",
       headers: new Headers({
         Authorization:
