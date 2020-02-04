@@ -14,10 +14,10 @@ export default class CreateCourse extends React.Component {
     super(props);
     this.state = {
       title: "",
+      userId: "",
       description: "",
       estimatedTime: "",
       materialsNeeded: "",
-      userId: "",
       errors: []
     };
   }
@@ -50,32 +50,23 @@ export default class CreateCourse extends React.Component {
     });
   };
 
-  submit = async () => {
-    const {
-      title,
-      description,
-      estimatedTime,
-      materialsNeeded,
-      emailAddress,
-      userId
-    } = this.state;
-
-    await fetch(`${config.apiBaseUrl}/courses`, {
+  submit = () => {
+    fetch(`${config.apiBaseUrl}/courses`, {
       method: "POST",
-      body: JSON.stringify({
-        title,
-        description,
-        estimatedTime,
-        materialsNeeded,
-        userId
-      }),
-      headers: {
+      body: JSON.stringify(this.state),
+      headers: new Headers({
         Authorization:
-          "Basic " + btoa(emailAddress + ":" + Cookies.get("password"))
-      }
+          "Basic " +
+          btoa(this.state.emailAddress + ":" + Cookies.get("password"))
+      })
     })
-      .then(function(res) {
-        return res.json();
+      .then(async res => {
+        if (res.ok === true) {
+          this.props.history.push("/");
+          console.log("Course Created");
+        } else if (res.status === 400 || 500) {
+          this.props.history.push("/error");
+        }
       })
       .then(function(data) {
         return data.errors;

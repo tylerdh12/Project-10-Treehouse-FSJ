@@ -1,6 +1,7 @@
 import React from "react";
 import config from "./../../config";
 import Form from "./Form";
+import Cookies from "js-cookie";
 
 // This component provides the "Update Course" screen by rendering a form
 // that allows a user to update one of their existing courses. The component
@@ -12,93 +13,100 @@ export default class UpdateCourse extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      course: {},
       title: "",
       description: "",
       estimatedTime: "",
       materialsNeeded: "",
-      owner: {},
+      emailAddress: "",
+      firstName: "",
+      lastName: "",
       errors: []
     };
   }
 
   componentDidMount() {
-    this.getId();
     this.getCourse();
   }
 
-  api(path, method = "GET", body = null) {
-    const url = config.apiBaseUrl + path;
-    const { context } = this.props;
-
-    const options = {
-      method,
-      headers: {
-        "Content-Type": "application/json; charset=utf-8",
-        Authorization:
-          "Basic " +
-          btoa(
-            context.authenticatedUser.emailAddress +
-              ":" +
-              context.authenticatedUser.password
-          )
+  async getCourse() {
+    await fetch(
+      config.apiBaseUrl + "/courses/" + this.props.match.params.id
+    ).then(res => {
+      if (res.status === 200) {
+        return res.json().then(data => {
+          this.setState({
+            //course: data,
+            title: data.title,
+            description: data.description,
+            estimatedTime: data.estimatedTime,
+            materialsNeeded: data.materialsNeeded,
+            emailAddress: data.owner.emailAddress,
+            firstName: data.owner.firstName,
+            lastName: data.owner.lastName
+          });
+        });
+      } else if (res.status === 401) {
+        return null;
+      } else {
+        new Error();
       }
-    };
-
-    if (body !== null) {
-      options.body = JSON.stringify(body);
-    }
-
-    return fetch(url, options);
-  }
-
-  async getId() {
-    let courseIdParen = await this.props.location.pathname;
-    let courseId = await courseIdParen.replace("/courses/", "");
-    this.setState({
-      courseId: courseId
     });
   }
 
-  async getCourse() {
-    const url = "/courses/" + this.props.match.params.id;
-    const response = await this.api(url, "GET", null, true);
-    if (response.status === 200) {
-      return response.json().then(data => {
-        this.setState({
-          course: data,
-          owner: data.owner,
-          title: data.title,
-          description: data.description,
-          estimatedTime: data.estimatedTime,
-          materialsNeeded: data.materialsNeeded
-        });
-      });
-    } else if (response.status === 401) {
-      return null;
-    } else {
-      throw new Error();
-    }
-  }
+  change = event => {
+    const name = event.target.name;
+    const value = event.target.value;
+
+    this.setState(() => {
+      return {
+        [name]: value
+      };
+    });
+  };
+
+  submit = () => {
+    fetch(config.apiBaseUrl + "/courses/" + this.props.match.params.id, {
+      method: "PUT",
+      body: JSON.stringify(this.state),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization:
+          "Basic " +
+          btoa(this.state.emailAddress + ":" + Cookies.get("password"))
+      },
+      credentials: "same-origin"
+    }).then(res => {
+      console.log(res.status); //=> number 100–599
+      console.log(res.statusText); //=> String
+      console.log(res.headers); //=> Headers
+      console.log(res.url); //=> String
+      console.log(res.text);
+    });
+
+    // .then(errors => {
+    //   if (errors.length) {
+    //     this.setState({ errors });
+    //   }
+    // })
+    // .catch(err => {
+    //   // handle rejected promises
+    //   console.log(err);
+    //   this.props.history.push("/error"); //push to history stack
+    // });
+  };
+
+  cancel = () => {
+    this.props.history.push("/"); // redirect to main page
+  };
 
   render() {
-    const {
-      title,
-      description,
-      estimatedTime,
-      materialsNeeded,
-      errors
-    } = this.state;
-
-    const { firstName, lastName } = this.state.owner;
-
     return (
       <div className="bounds course--detail">
         <h1>Update Course</h1>
         <div>
           <Form
             cancel={this.cancel}
-            errors={errors}
+            errors={this.state.errors}
             submit={this.submit}
             submitButtonText="Update Course"
             elements={() => (
@@ -112,12 +120,12 @@ export default class UpdateCourse extends React.Component {
                         id="title"
                         name="title"
                         type="text"
-                        value={title}
+                        value={this.state.title}
                         onChange={this.change}
                         placeholder="Title"
                       />
                       <p>
-                        By {firstName} {lastName}
+                        By {this.state.firstName} {this.state.lastName}
                       </p>
                     </div>
                   </div>
@@ -127,7 +135,7 @@ export default class UpdateCourse extends React.Component {
                         id="description"
                         name="description"
                         type="textarea"
-                        value={description}
+                        value={this.state.description}
                         onChange={this.change}
                         placeholder="Course description..."
                       />
@@ -144,7 +152,7 @@ export default class UpdateCourse extends React.Component {
                             id="estimatedTime"
                             name="estimatedTime"
                             type="text"
-                            value={estimatedTime}
+                            value={this.state.estimatedTime}
                             onChange={this.change}
                             placeholder="Hours"
                           />
@@ -157,7 +165,7 @@ export default class UpdateCourse extends React.Component {
                             id="materialsNeeded"
                             name="materialsNeeded"
                             type="textarea"
-                            value={materialsNeeded}
+                            value={this.state.materialsNeeded}
                             onChange={this.change}
                             placeholder="Materials"
                           />
@@ -173,39 +181,4 @@ export default class UpdateCourse extends React.Component {
       </div>
     );
   }
-  change = event => {
-    const name = event.target.name;
-    const value = event.target.value;
-
-    this.setState(() => {
-      return {
-        [name]: value
-      };
-    });
-  };
-
-  submit = () => {
-    const { context } = this.props;
-    const { title, description, hours, materials } = this.state;
-
-    //new user payload
-    const course = { title, description, hours, materials };
-
-    context.data
-      .createUser(course)
-      .then(errors => {
-        if (errors.length) {
-          this.setState({ errors });
-        }
-      })
-      .catch(err => {
-        // handle rejected promises
-        console.log(err);
-        this.props.history.push("/error"); //push to history stack
-      });
-  };
-
-  cancel = () => {
-    this.props.history.push("/"); // redirect to main page
-  };
 }
