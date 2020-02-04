@@ -1,35 +1,34 @@
 import React from "react";
 import Cookies from "js-cookie";
 import config from "../../config";
+import { useHistory } from "react-router-dom";
 
 const ActionBar = props => {
-  const { context } = props;
-  const authUser = context.authenticatedUser;
+  let history = useHistory();
+  const authUser = props.context.authenticatedUser;
 
   function handleDelete(event) {
     event.preventDefault();
     courseDelete(props);
   }
+
   async function courseDelete(props) {
-    const { context } = props;
     await fetch(`${config.apiBaseUrl}/courses/${props.courseId}`, {
       method: "DELETE",
       headers: new Headers({
         Authorization:
           "Basic " +
           btoa(
-            context.authenticatedUser.emailAddress +
+            props.context.authenticatedUser.emailAddress +
               ":" +
               Cookies.get("password")
           )
       })
-    }).then(res => {
-      if (res.status === 204) {
-        console.log("Course Deleted " + res.status);
-      } else if (res.status === 400) {
-        this.props.history.push("/forbidden");
+    }).then(async res => {
+      if (res.ok === true) {
+        history.push("/");
       } else if (res.status === 500) {
-        this.props.history.push("/error");
+        history.push("/error");
       } else {
         window.alert("Sorry, could not delete the course!");
       }
