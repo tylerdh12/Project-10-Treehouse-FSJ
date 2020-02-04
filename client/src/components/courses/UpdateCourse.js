@@ -14,6 +14,7 @@ export default class UpdateCourse extends React.Component {
     super(props);
     this.state = {
       title: "",
+      userId: this.props.context.authenticatedUser.userId,
       description: "",
       estimatedTime: "",
       materialsNeeded: "",
@@ -26,6 +27,7 @@ export default class UpdateCourse extends React.Component {
 
   componentDidMount() {
     this.getCourse();
+    console.log(config.apiBaseUrl);
   }
 
   async getCourse() {
@@ -65,34 +67,31 @@ export default class UpdateCourse extends React.Component {
   };
 
   submit = () => {
-    fetch(config.apiBaseUrl + "/courses/" + this.props.match.params.id, {
+    fetch(`${config.apiBaseUrl}/courses/${this.props.match.params.id}`, {
       method: "PUT",
-      body: JSON.stringify(this.state),
       headers: {
+        Accept: "application/json, text/plain, */*",
         "Content-Type": "application/json",
         Authorization:
           "Basic " +
           btoa(this.state.emailAddress + ":" + Cookies.get("password"))
       },
-      credentials: "same-origin"
-    }).then(res => {
-      console.log(res.status); //=> number 100–599
-      console.log(res.statusText); //=> String
-      console.log(res.headers); //=> Headers
-      console.log(res.url); //=> String
-      console.log(res.text);
-    });
-
-    // .then(errors => {
-    //   if (errors.length) {
-    //     this.setState({ errors });
-    //   }
-    // })
-    // .catch(err => {
-    //   // handle rejected promises
-    //   console.log(err);
-    //   this.props.history.push("/error"); //push to history stack
-    // });
+      body: JSON.stringify(this.state)
+    })
+      .then(res => {
+        // console.log(res.status); //=> number 100–599
+        // console.log(res.statusText); //=> String
+        // console.log(res.headers); //=> Headers
+        // console.log(res.url); //=> String
+        // console.log(res.text);
+        this.props.history.push("/");
+      })
+      .catch(errors => {
+        if (errors.length) {
+          this.setState({ errors });
+          this.props.history.push("/error");
+        }
+      });
   };
 
   cancel = () => {

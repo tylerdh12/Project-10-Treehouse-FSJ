@@ -14,28 +14,15 @@ export default class CreateCourse extends React.Component {
     super(props);
     this.state = {
       title: "",
-      userId: "",
+      userId: this.props.context.authenticatedUser.userId,
       description: "",
       estimatedTime: "",
       materialsNeeded: "",
+      firstName: this.props.context.authenticatedUser.firstName,
+      lastName: this.props.context.authenticatedUser.lastName,
+      emailAddress: this.props.context.authenticatedUser.emailAddress,
       errors: []
     };
-  }
-
-  componentDidMount() {
-    this.setAuth();
-  }
-
-  // Sets the authenticated user values into State
-  setAuth() {
-    const { context } = this.props;
-    const authId = context.authenticatedUser.userId;
-    this.setState({
-      userId: authId,
-      emailAddress: context.authenticatedUser.emailAddress,
-      firstName: context.authenticatedUser.firstName,
-      lastName: context.authenticatedUser.lastName
-    });
   }
 
   // Sets the state of the values entered into the textboxes
@@ -54,11 +41,13 @@ export default class CreateCourse extends React.Component {
     fetch(`${config.apiBaseUrl}/courses`, {
       method: "POST",
       body: JSON.stringify(this.state),
-      headers: new Headers({
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json",
         Authorization:
           "Basic " +
           btoa(this.state.emailAddress + ":" + Cookies.get("password"))
-      })
+      }
     })
       .then(async res => {
         if (res.ok === true) {
@@ -80,24 +69,13 @@ export default class CreateCourse extends React.Component {
   };
 
   render() {
-    const {
-      title,
-      description,
-      estimatedTime,
-      materialsNeeded,
-      firstName,
-      lastName,
-      errors
-    } = this.state;
-
     return (
       <div className="bounds course--detail">
         <h1>Create Course</h1>
         <div>
-          <ErrorsDisplay errors={this.state.errors} />
           <Form
             cancel={this.cancel}
-            errors={errors}
+            errors={this.state.errors}
             submit={this.submit}
             submitButtonText="Create Course"
             elements={() => (
@@ -111,12 +89,12 @@ export default class CreateCourse extends React.Component {
                         id="title"
                         name="title"
                         type="text"
-                        value={title}
+                        value={this.state.title}
                         onChange={this.change}
                         placeholder="Title"
                       />
                       <p>
-                        By: {firstName} {lastName}
+                        By: {this.state.firstName} {this.state.lastName}
                       </p>
                     </div>
                   </div>
@@ -126,7 +104,7 @@ export default class CreateCourse extends React.Component {
                         id="description"
                         name="description"
                         type="textarea"
-                        value={description}
+                        value={this.state.description}
                         onChange={this.change}
                         placeholder="Course description..."
                       />
@@ -143,7 +121,7 @@ export default class CreateCourse extends React.Component {
                             id="estimatedTime"
                             name="estimatedTime"
                             type="text"
-                            value={estimatedTime}
+                            value={this.state.estimatedTime}
                             onChange={this.change}
                             placeholder="Hours"
                           />
@@ -156,7 +134,7 @@ export default class CreateCourse extends React.Component {
                             id="materials"
                             name="materialsNeeded"
                             type="textarea"
-                            value={materialsNeeded}
+                            value={this.state.materialsNeeded}
                             onChange={this.change}
                             placeholder="Materials"
                           />
@@ -173,20 +151,3 @@ export default class CreateCourse extends React.Component {
     );
   }
 }
-
-const ErrorsDisplay = ({ errors = {} }) => {
-  if (Object.keys(errors).length <= 0) return null;
-
-  return (
-    <div>
-      <h2 className="validation--errors--label">Validation errors</h2>
-      <div className="validation-errors">
-        <ul>
-          {Object.values(errors).map(message => (
-            <li key={message}>{message}</li>
-          ))}
-        </ul>
-      </div>
-    </div>
-  );
-};
