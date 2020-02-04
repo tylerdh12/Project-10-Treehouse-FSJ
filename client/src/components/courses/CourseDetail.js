@@ -43,7 +43,9 @@ class CourseDetail extends React.Component {
     await fetch(config.apiBaseUrl + "/courses/" + this.state.courseId)
       .then(res => {
         if (res.status === 500) {
-          this.props.history.push("/error");
+          return this.props.history.push("/error");
+        } else if (res.status === 404) {
+          return this.props.history.push("/notfound");
         } else {
           return res.json();
         }
@@ -57,6 +59,9 @@ class CourseDetail extends React.Component {
             owner: data.owner
           });
         }
+      })
+      .catch(err => {
+        return err;
       });
   }
 
