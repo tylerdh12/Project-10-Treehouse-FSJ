@@ -1,7 +1,7 @@
 import React from "react";
 
 export default props => {
-  const { cancel, submit, submitButtonText, elements } = props;
+  const { errors, cancel, submit, submitButtonText, elements } = props;
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -15,6 +15,7 @@ export default props => {
 
   return (
     <div>
+      <ErrorsDisplay errors={errors} />
       <form onSubmit={handleSubmit}>
         {elements()}
         <div className="grid-100 pad-bottom">
@@ -29,3 +30,24 @@ export default props => {
     </div>
   );
 };
+
+function ErrorsDisplay({ errors }) {
+  let errorsDisplay = null;
+
+  if (errors.length) {
+    errorsDisplay = (
+      <div>
+        <h2 className="validation--errors--label">Validation errors</h2>
+        <div className="validation-errors">
+          <ul>
+            {errors.map((error, i) => (
+              <li key={i}>{error.replace("Validation error: ", "")}</li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    );
+  }
+
+  return errorsDisplay;
+}

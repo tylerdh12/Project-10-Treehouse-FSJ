@@ -13,6 +13,7 @@ export default class CreateCourse extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      errors: [],
       title: "",
       userId: this.props.context.authenticatedUser.userId,
       description: "",
@@ -20,8 +21,7 @@ export default class CreateCourse extends React.Component {
       materialsNeeded: "",
       firstName: this.props.context.authenticatedUser.firstName,
       lastName: this.props.context.authenticatedUser.lastName,
-      emailAddress: this.props.context.authenticatedUser.emailAddress,
-      errors: []
+      emailAddress: this.props.context.authenticatedUser.emailAddress
     };
   }
 
@@ -50,18 +50,22 @@ export default class CreateCourse extends React.Component {
       }
     })
       .then(async res => {
-        if (res.ok === true) {
+        if (res.status === 201) {
           this.props.history.push("/");
-          console.log("Course Created");
-        } else if (res.status === 400 || 500) {
-          this.props.history.push("/error");
+        } else if (res.status === 500 || 400) {
+          let data = await res.json();
+          let errors = data.message.split("\n");
+
+          this.setState({ errors: errors });
+        } else {
+          throw new Error();
         }
       })
-      .then(function(data) {
-        return data.errors;
-      })
-      // .then(this.props.history.push("/"))
-      .catch(err => this.setState({ errors: err }));
+      .catch(err => {
+        // handle rejected promises
+        console.log(err.message);
+        // this.props.history.push("/error"); //push to history stack
+      });
   };
 
   cancel = () => {
@@ -69,13 +73,14 @@ export default class CreateCourse extends React.Component {
   };
 
   render() {
+    const { errors } = this.state;
     return (
       <div className="bounds course--detail">
         <h1>Create Course</h1>
         <div>
           <Form
             cancel={this.cancel}
-            errors={this.state.errors}
+            errors={errors}
             submit={this.submit}
             submitButtonText="Create Course"
             elements={() => (
