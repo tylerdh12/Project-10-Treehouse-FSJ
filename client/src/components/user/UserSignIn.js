@@ -1,13 +1,6 @@
 import React from "react";
 import Form from "./Form";
 
-// This component provides the "Course Detail" screen by retrieving the detail for a
-// course from the REST API's /api/courses/:id route and rendering the course.
-// The component also renders a "Delete Course" button that when clicked should send
-// a DELETE request to the REST API's /api/courses/:id route in order to delete a course.
-// This component also renders an "Update Course" button for navigating to the
-// "Update Course" screen.
-
 export default class UserSignIn extends React.Component {
   state = {
     emailAddress: "",
@@ -33,7 +26,7 @@ export default class UserSignIn extends React.Component {
                   id="emailAddress"
                   name="emailAddress"
                   type="text"
-                  value={emailAddress}
+                  value={emailAddress.toLowerCase()}
                   onChange={this.change}
                   placeholder="Email Address"
                 />

@@ -58,7 +58,7 @@ export default class UserSignUp extends React.Component {
                   id="emailAddress"
                   name="emailAddress"
                   type="text"
-                  value={emailAddress}
+                  value={emailAddress.toLowerCase()}
                   onChange={this.change}
                   placeholder="Email Address"
                 />
@@ -121,22 +121,27 @@ export default class UserSignUp extends React.Component {
       confirmPassword
     };
 
-    context.data
-      .createUser(user)
-      .then(errors => {
-        if (errors.length) {
-          this.setState({ errors });
-        } else {
-          context.actions.signIn(emailAddress, password).then(() => {
-            this.props.history.push("/authenticated");
-          });
-        }
-      })
-      .catch(err => {
-        // handle rejected promises
-        console.log(err);
-        this.props.history.push("/error"); //push to history stack
-      });
+    if (this.state.password === this.state.confirmPassword) {
+      context.data
+        .createUser(user)
+        .then(errors => {
+          if (errors.length > 0) {
+            this.setState({ errors });
+          } else {
+            context.actions.signIn(emailAddress, password).then(() => {
+              this.props.history.push("/");
+            });
+          }
+        })
+        .catch(err => {
+          // handle rejected promises
+          console.log(err);
+          this.props.history.push("/error"); //push to history stack
+        });
+    } else {
+      const errors = ["Passwords must match."];
+      this.setState({ errors });
+    }
   };
 
   cancel = () => {
