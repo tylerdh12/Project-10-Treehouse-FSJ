@@ -43,6 +43,8 @@ export default class Data {
       return response.json().then(data => data);
     } else if (response.status === 401) {
       return null;
+    } else if (response.status === 500) {
+      return <Redirect to={{ pathname: "/error" }} />;
     } else {
       throw new Error();
     }
