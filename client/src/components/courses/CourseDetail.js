@@ -20,7 +20,6 @@ class CourseDetail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: true,
       courseId: null,
       course: [],
       owner: [],
