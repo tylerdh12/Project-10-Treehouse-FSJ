@@ -1,7 +1,6 @@
 import React from "react";
 import config from "./../../config";
 import Form from "./Form";
-import Cookies from "js-cookie";
 
 // This component provides the "Update Course" screen by rendering a form
 // that allows a user to update one of their existing courses. The component

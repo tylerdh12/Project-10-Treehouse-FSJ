@@ -1,6 +1,5 @@
 import React from "react";
 import Form from "./Form";
-import Cookies from "js-cookie";
 import config from "../../config";
 
 // This component provides the "Create Course" screen by rendering a form that
