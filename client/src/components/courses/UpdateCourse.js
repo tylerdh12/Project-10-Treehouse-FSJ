@@ -78,12 +78,14 @@ export default class UpdateCourse extends React.Component {
       body: JSON.stringify(this.state)
     })
       .then(async res => {
-        console.log(res);
         if (res.status === 204) {
-          this.props.history.push("/");
+          this.props.history.push(
+            this.props.location.pathname.replace("/update", "")
+          );
         } else {
           let data = await res.json();
-          console.log(data);
+          let errors = data.errors;
+          this.setState({ errors: errors });
         }
       })
       .catch(err => {

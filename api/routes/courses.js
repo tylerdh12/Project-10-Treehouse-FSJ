@@ -113,12 +113,12 @@ router.get(
 router.post(
   "/",
   [
-    check("title")
-      .exists()
-      .withMessage('Please Provide a value for "title"'),
-    check("description")
-      .exists()
-      .withMessage('Please Provide a value for "description"')
+    check("title", 'Please Provide a value for "Title"')
+      .not()
+      .isEmpty(),
+    check("description", 'Please Provide a value for "Description"')
+      .not()
+      .isEmpty()
   ],
   authenticateUser,
   asyncHandler(async (req, res, next) => {
@@ -156,12 +156,12 @@ router.post(
 router.put(
   "/:courseId",
   [
-    check("title")
-      .exists()
-      .withMessage('Please Provide a value for "title"'),
-    check("description")
-      .exists()
-      .withMessage('Please Provide a value for "description"')
+    check("title", 'Please Provide a value for "Title"')
+      .not()
+      .isEmpty(),
+    check("description", 'Please Provide a value for "Description"')
+      .not()
+      .isEmpty()
   ],
   authenticateUser,
   asyncHandler(async (req, res) => {

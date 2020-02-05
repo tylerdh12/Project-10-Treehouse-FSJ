@@ -54,8 +54,7 @@ export default class CreateCourse extends React.Component {
           this.props.history.push("/");
         } else if (res.status === 500 || 400) {
           let data = await res.json();
-          let errors = data.message.split("\n");
-
+          let errors = data.errors;
           this.setState({ errors: errors });
         } else {
           throw new Error();
