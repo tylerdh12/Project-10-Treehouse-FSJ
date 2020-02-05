@@ -58,6 +58,8 @@ export default class Data {
       return response.json().then(data => {
         return data.errors;
       });
+    } else if (response.status === 500) {
+      return <Redirect to={{ pathname: "/error" }} />;
     } else {
       throw new Error();
     }
@@ -69,6 +71,8 @@ export default class Data {
       return response.json().then(data => console.log(data));
     } else if (response.status === 401) {
       return null;
+    } else if (response.status === 500) {
+      return <Redirect to={{ pathname: "/error" }} />;
     } else {
       throw new Error();
     }
@@ -98,6 +102,8 @@ export default class Data {
       return response.json().then(data => console.log(data));
     } else if (response.status === 401) {
       return null;
+    } else if (response.status === 500) {
+      return <Redirect to={{ pathname: "/error" }} />;
     } else {
       throw new Error();
     }
@@ -119,6 +125,8 @@ export default class Data {
       return <Redirect to={{ pathname: "/" }} />;
     } else if (response.status === 401) {
       return null;
+    } else if (response.status === 500) {
+      return <Redirect to={{ pathname: "/error" }} />;
     } else {
       throw new Error();
     }
