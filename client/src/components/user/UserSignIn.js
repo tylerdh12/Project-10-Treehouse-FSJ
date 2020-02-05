@@ -1,5 +1,6 @@
 import React from "react";
 import Form from "./Form";
+import Cookies from "js-cookie";
 
 export default class UserSignIn extends React.Component {
   state = {
@@ -63,20 +64,25 @@ export default class UserSignIn extends React.Component {
   };
 
   submit = () => {
-    const { context } = this.props;
     const { from } = this.props.location.state || {
       from: { pathname: "/" }
     };
-    const { emailAddress, password } = this.state;
 
-    context.actions
-      .signIn(emailAddress, password)
+    this.props.context.actions
+      .signIn(this.state.emailAddress, this.state.password)
       .then(user => {
         if (user === null) {
           this.setState(() => {
             return { errors: ["Sign-in was unsuccessful"] };
           });
         } else {
+          user.password = this.state.password;
+          // Sets the User Obj as a cookie to recall for state and sets an expiration of: 1 Day
+          // (use https://github.com/js-cookie/js-cookie/wiki/Frequently-Asked-Questions as ref for cookie expire )
+          Cookies.set("authenticatedUser", JSON.stringify(user), {
+            expires: 1
+          });
+
           this.props.history.push(from);
         }
       })

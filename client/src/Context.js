@@ -52,12 +52,6 @@ export class Provider extends React.Component {
           authenticatedUser: user
         };
       });
-      // Sets the User Obj as a cookie to recall for state and sets an expiration of: 1 Day
-      // (use https://github.com/js-cookie/js-cookie/wiki/Frequently-Asked-Questions as ref for cookie expire )
-      Cookies.set("authenticatedUser", JSON.stringify(user), {
-        expires: 1
-      });
-      Cookies.set("password", password);
     }
     // Returns user Obj
     return user;

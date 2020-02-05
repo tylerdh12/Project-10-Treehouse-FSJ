@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 // Import Components
 import Header from "./components/Header";
 import PrivateRoute from "./PrivateRoute";
-import Authenticated from "./components/user/Authenticated";
+// import Authenticated from "./components/user/Authenticated";
 import Courses from "./components/courses/Courses";
 import CreateCourse from "./components/courses/CreateCourse";
 import UpdateCourse from "./components/courses/UpdateCourse";
@@ -21,7 +21,7 @@ import withContext from "./Context";
 
 // Connect Course to context
 const HeaderWithContext = withContext(Header);
-const AuthWithContext = withContext(Authenticated);
+// const AuthWithContext = withContext(Authenticated);
 const CoursesWithContext = withContext(Courses);
 const CreateCourseWithContext = withContext(CreateCourse);
 const CourseDetailWithContext = withContext(CourseDetail);
@@ -39,8 +39,8 @@ export default () => {
         <Switch>
           {/* This Component will load the Courses and show them using the Courses Component  */}
           <Route exact path="/" component={CoursesWithContext} />
-          <PrivateRoute path="/authenticated" component={AuthWithContext} />
-          <PrivateRoute path="/settings" component={AuthWithContext} />
+          {/* <PrivateRoute path="/authenticated" component={AuthWithContext} />  used to add verification and setting / controls to the user
+          <PrivateRoute path="/settings" component={AuthWithContext} /> */}
           <PrivateRoute
             path="/courses/create"
             component={CreateCourseWithContext}
@@ -55,6 +55,7 @@ export default () => {
           <PrivateRoute path="/signout" component={UserSignOutWithContext} />
           <Route path="/forbidden" component={Forbidden} />
           <Route path="/error" component={Error} />
+          <Route path="/notfound" component={NotFound} />
           <Route component={NotFound} />
         </Switch>
       </div>

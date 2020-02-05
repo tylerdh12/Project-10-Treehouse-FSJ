@@ -77,7 +77,11 @@ export default class UpdateCourse extends React.Component {
         "Content-Type": "application/json",
         Authorization:
           "Basic " +
-          btoa(this.state.emailAddress + ":" + Cookies.get("password"))
+          btoa(
+            this.state.emailAddress +
+              ":" +
+              this.props.context.authenticatedUser.password
+          )
       },
       body: JSON.stringify(this.state)
     })

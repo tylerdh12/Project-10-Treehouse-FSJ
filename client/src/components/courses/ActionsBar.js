@@ -1,5 +1,4 @@
 import React from "react";
-import Cookies from "js-cookie";
 import config from "../../config";
 import { useHistory } from "react-router-dom";
 
@@ -21,7 +20,7 @@ const ActionBar = props => {
           btoa(
             props.context.authenticatedUser.emailAddress +
               ":" +
-              Cookies.get("password")
+              props.context.authenticatedUser.password
           )
       })
     }).then(async res => {
