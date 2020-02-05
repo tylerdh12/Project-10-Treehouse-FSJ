@@ -72,10 +72,6 @@ export class Provider extends React.Component {
     Cookies.remove("authenticatedUser");
     Cookies.remove("password");
   };
-
-  deleteCourse = (courseId, emailAddress, password) => {
-    this.data.deleteCourse(courseId, emailAddress, password);
-  };
 }
 
 export const Consumer = Context.Consumer;
