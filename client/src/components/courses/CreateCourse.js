@@ -73,14 +73,13 @@ export default class CreateCourse extends React.Component {
   };
 
   render() {
-    const { errors } = this.state;
     return (
       <div className="bounds course--detail">
         <h1>Create Course</h1>
         <div>
           <Form
             cancel={this.cancel}
-            errors={errors}
+            errors={this.state.errors}
             submit={this.submit}
             submitButtonText="Create Course"
             elements={() => (

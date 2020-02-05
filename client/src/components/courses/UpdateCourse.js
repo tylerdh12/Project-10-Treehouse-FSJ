@@ -82,7 +82,6 @@ export default class UpdateCourse extends React.Component {
         if (res.status === 204) {
           this.props.history.push("/");
         } else {
-          console.log("its else");
           let data = await res.json();
           console.log(data);
         }
@@ -99,15 +98,13 @@ export default class UpdateCourse extends React.Component {
   };
 
   render() {
-    const { errors } = this.state;
-
     return (
       <div className="bounds course--detail">
         <h1>Update Course</h1>
         <div>
           <Form
             cancel={this.cancel}
-            errors={errors}
+            errors={this.state.errors}
             submit={this.submit}
             submitButtonText="Update Course"
             elements={() => (
