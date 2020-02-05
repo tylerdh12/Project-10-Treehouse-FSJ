@@ -52,7 +52,7 @@ export default class Data {
     const response = await this.api("/users", "POST", user);
     if (response.status === 201) {
       return [];
-    } else if (response.status === 400) {
+    } else if (response.status === 400 || 401) {
       return response.json().then(data => {
         return data.errors;
       });
