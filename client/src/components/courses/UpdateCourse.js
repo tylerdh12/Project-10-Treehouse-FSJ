@@ -27,7 +27,6 @@ export default class UpdateCourse extends React.Component {
 
   componentDidMount() {
     this.getCourse();
-    console.log(config.apiBaseUrl);
   }
 
   async getCourse() {
@@ -78,19 +77,20 @@ export default class UpdateCourse extends React.Component {
       },
       body: JSON.stringify(this.state)
     })
-      .then(res => {
-        // console.log(res.status); //=> number 100–599
-        // console.log(res.statusText); //=> String
-        // console.log(res.headers); //=> Headers
-        // console.log(res.url); //=> String
-        // console.log(res.text);
-        this.props.history.push("/");
-      })
-      .catch(errors => {
-        if (errors.length) {
-          this.setState({ errors });
-          this.props.history.push("/error");
+      .then(async res => {
+        console.log(res);
+        if (res.status === 204) {
+          this.props.history.push("/");
+        } else {
+          console.log("its else");
+          let data = await res.json();
+          console.log(data);
         }
+      })
+      .catch(err => {
+        // handle rejected promises
+        console.log(err);
+        this.props.history.push("/error"); //push to history stack
       });
   };
 
@@ -99,13 +99,15 @@ export default class UpdateCourse extends React.Component {
   };
 
   render() {
+    const { errors } = this.state;
+
     return (
       <div className="bounds course--detail">
         <h1>Update Course</h1>
         <div>
           <Form
             cancel={this.cancel}
-            errors={this.state.errors}
+            errors={errors}
             submit={this.submit}
             submitButtonText="Update Course"
             elements={() => (

@@ -64,7 +64,7 @@ export default class CreateCourse extends React.Component {
       .catch(err => {
         // handle rejected promises
         console.log(err.message);
-        // this.props.history.push("/error"); //push to history stack
+        this.props.history.push("/error"); //push to history stack
       });
   };
 
