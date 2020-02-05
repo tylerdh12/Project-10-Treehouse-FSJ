@@ -35,16 +35,20 @@ export default class UpdateCourse extends React.Component {
     ).then(res => {
       if (res.status === 200) {
         return res.json().then(data => {
-          this.setState({
-            //course: data,
-            title: data.title,
-            description: data.description,
-            estimatedTime: data.estimatedTime,
-            materialsNeeded: data.materialsNeeded,
-            emailAddress: data.owner.emailAddress,
-            firstName: data.owner.firstName,
-            lastName: data.owner.lastName
-          });
+          if (data.owner.id === this.props.context.authenticatedUser.userId) {
+            this.setState({
+              //course: data,
+              title: data.title,
+              description: data.description,
+              estimatedTime: data.estimatedTime,
+              materialsNeeded: data.materialsNeeded,
+              emailAddress: data.owner.emailAddress,
+              firstName: data.owner.firstName,
+              lastName: data.owner.lastName
+            });
+          } else {
+            this.props.history.push("/forbidden");
+          }
         });
       } else if (res.status === 401) {
         return null;
