@@ -54,7 +54,7 @@ export default class Data {
     const response = await this.api("/users", "POST", user);
     if (response.status === 201) {
       return [];
-    } else if (response.status === 400 || 401) {
+    } else if (response.status === 400 || 409) {
       return response.json().then(data => {
         return data.errors;
       });
@@ -132,3 +132,7 @@ export default class Data {
     }
   }
 }
+
+// {"location":"body","message":"Invalid User Entry","errors":["Please Provide your Last Name"]}
+// {"location":"body","message":"User already exists","errors":["User already Exists"]}
+// {"location":"body","message":"User already exists","errors":"User already Exists"}

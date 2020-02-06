@@ -84,22 +84,28 @@ router.get("/", authenticateUser, (req, res) => {
 router.post(
   "/",
   [
-    check("firstName")
-      .exists()
-      .withMessage('Please Provide a value for "firstName"'),
-    check("lastName")
-      .exists()
-      .withMessage('Please Provide a value for "lastName"'),
+    check("firstName", "Please Provide your First Name")
+      .not()
+      .isEmpty(),
+    check("lastName", "Please Provide your Last Name")
+      .not()
+      .isEmpty(),
     check("emailAddress")
       .isEmail()
-      .withMessage('Please Provide a valid "emailAddress"')
-      .exists()
-      .withMessage('Please Provide a value for "emailAddress"'),
+      .withMessage("Please provide a valid Email Address")
+      .not()
+      .isEmpty()
+      .withMessage("Please provide an Email Address"),
     check("password")
       .isLength({ min: 8, max: 20 })
-      .withMessage('Please Provide a "password" between (8 - 20) characters')
-      .exists()
-      .withMessage('Please Provide a value for "password"')
+      .withMessage("Please provide a Password between (8 - 20) characters")
+      .not()
+      .isEmpty()
+      .withMessage("Please provide a Password"),
+    check("confirmPassword")
+      .not()
+      .isEmpty()
+      .withMessage("Please Provide a Confirmation Password")
   ],
   asyncHandler(async (req, res) => {
     const errors = validationResult(req);
@@ -124,24 +130,36 @@ router.post(
         }
       });
       if (userExists.length < 1) {
-        // Get the user from the request body.
-        const user = User.build({
-          firstName: req.body.firstName,
-          lastName: req.body.lastName,
-          emailAddress: req.body.emailAddress,
-          password: req.body.password
-        });
-        // Use Bcryptjs to encrypt the password
-        user.password = bcryptjs.hashSync(user.password);
-        // Saves the user record and saves it to DB
-        user.save().catch(error => {
-          // Logs errors caught
-          console.log(error);
-        });
-        res.setHeader("Location", "/");
-        res.status(201).json();
+        if (req.body.password === req.body.confirmPassword) {
+          // Get the user from the request body.
+          const user = User.build({
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            emailAddress: req.body.emailAddress,
+            password: req.body.password
+          });
+          // Use Bcryptjs to encrypt the password
+          user.password = bcryptjs.hashSync(user.password);
+          // Saves the user record and saves it to DB
+          user.save().catch(error => {
+            // Logs errors caught
+            console.log(error);
+          });
+          res.setHeader("Location", "/");
+          res.status(201).json();
+        } else {
+          res.status(409).json({
+            location: "body",
+            message: "Passwords do not match",
+            errors: ["Passwords do not match"]
+          });
+        }
       } else if (userExists) {
-        res.status(400).json({ message: "User already exists" });
+        res.status(409).json({
+          location: "body",
+          message: "User already exists",
+          errors: ["User already Exists"]
+        });
       }
     }
   })

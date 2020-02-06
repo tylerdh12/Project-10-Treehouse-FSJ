@@ -121,27 +121,22 @@ export default class UserSignUp extends React.Component {
       confirmPassword
     };
 
-    if (this.state.password === this.state.confirmPassword) {
-      context.data
-        .createUser(user)
-        .then(errors => {
-          if (errors.length > 0) {
-            this.setState({ errors });
-          } else {
-            context.actions.signIn(emailAddress, password).then(() => {
-              this.props.history.push("/");
-            });
-          }
-        })
-        .catch(err => {
-          // handle rejected promises
-          console.log(err);
-          this.props.history.push("/error"); //push to history stack
-        });
-    } else {
-      const errors = ["Passwords must match."];
-      this.setState({ errors });
-    }
+    context.data
+      .createUser(user)
+      .then(errors => {
+        if (errors.length > 0) {
+          this.setState({ errors });
+        } else {
+          context.actions.signIn(emailAddress, password).then(() => {
+            this.props.history.push("/");
+          });
+        }
+      })
+      .catch(err => {
+        // handle rejected promises
+        console.log(err);
+        // this.props.history.push("/error"); //push to history stack
+      });
   };
 
   cancel = () => {
