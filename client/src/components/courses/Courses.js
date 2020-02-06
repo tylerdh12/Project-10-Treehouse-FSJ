@@ -15,6 +15,23 @@ export default class Courses extends React.Component {
     this.getCourses();
   }
 
+  // Get Courses Event Handler
+  getCourses() {
+    fetch(config.apiBaseUrl + "/courses")
+      .then(res => {
+        if (res.status === 500) {
+          this.props.history.push("/error");
+        } else {
+          return res.json();
+        }
+      })
+      .then(data => {
+        this.setState({
+          courses: data
+        });
+      });
+  }
+
   render() {
     return (
       <div className="bounds">
@@ -44,21 +61,5 @@ export default class Courses extends React.Component {
         </div>
       </div>
     );
-  }
-
-  getCourses() {
-    fetch(config.apiBaseUrl + "/courses")
-      .then(res => {
-        if (res.status === 500) {
-          this.props.history.push("/error");
-        } else {
-          return res.json();
-        }
-      })
-      .then(data => {
-        this.setState({
-          courses: data
-        });
-      });
   }
 }

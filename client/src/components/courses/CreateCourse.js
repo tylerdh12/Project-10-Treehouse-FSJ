@@ -36,6 +36,7 @@ export default class CreateCourse extends React.Component {
     });
   };
 
+  // Submit Event Handler
   submit = () => {
     fetch(`${config.apiBaseUrl}/courses`, {
       method: "POST",
@@ -70,6 +71,7 @@ export default class CreateCourse extends React.Component {
       });
   };
 
+  // Cancel Event Handler
   cancel = () => {
     this.props.history.push("/"); // redirect to main page
   };

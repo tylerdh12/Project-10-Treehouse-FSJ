@@ -3,11 +3,13 @@ import React from "react";
 export default props => {
   const { errors, cancel, submit, submitButtonText, elements } = props;
 
+  // Submit Event Handler
   function handleSubmit(event) {
     event.preventDefault();
     submit();
   }
 
+  // Cancel Event Handler
   function handleCancel(event) {
     event.preventDefault();
     cancel();
@@ -31,6 +33,7 @@ export default props => {
   );
 };
 
+// Error Display function that creates a list of validation errors
 function ErrorsDisplay({ errors }) {
   let errorsDisplay = null;
 

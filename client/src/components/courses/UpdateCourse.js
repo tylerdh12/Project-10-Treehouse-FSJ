@@ -28,6 +28,7 @@ export default class UpdateCourse extends React.Component {
     this.getCourse();
   }
 
+  // Get course to add content to be updated
   async getCourse() {
     await fetch(
       config.apiBaseUrl + "/courses/" + this.props.match.params.id
@@ -35,6 +36,7 @@ export default class UpdateCourse extends React.Component {
       if (res.status === 200) {
         return res.json().then(data => {
           if (data.owner.id === this.props.context.authenticatedUser.userId) {
+            // Set values to the data pulled from this course
             this.setState({
               //course: data,
               title: data.title,
@@ -57,6 +59,7 @@ export default class UpdateCourse extends React.Component {
     });
   }
 
+  // Input Change Event Handler
   change = event => {
     const name = event.target.name;
     const value = event.target.value;
@@ -68,6 +71,7 @@ export default class UpdateCourse extends React.Component {
     });
   };
 
+  // Submit UpdateCourse Event Handler
   submit = () => {
     fetch(`${config.apiBaseUrl}/courses/${this.props.match.params.id}`, {
       method: "PUT",
@@ -102,6 +106,7 @@ export default class UpdateCourse extends React.Component {
       });
   };
 
+  // Cancel Button Event Handler
   cancel = () => {
     this.props.history.push("/"); // redirect to main page
   };

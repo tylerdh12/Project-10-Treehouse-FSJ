@@ -3,26 +3,18 @@ import ReactMarkdown from "react-markdown";
 
 export default class Details extends React.Component {
   render() {
-    const {
-      title,
-      description,
-      estimatedTime,
-      materialsNeeded
-    } = this.props.course;
-    const { firstName, lastName } = this.props.owner;
-
     return (
       <div className="bounds course--detail">
         <div className="grid-66">
           <div className="course--header">
             <h4 className="course--label">Course</h4>
-            <h3 className="course--title">{title}</h3>
+            <h3 className="course--title">{this.props.course.title}</h3>
             <p>
-              By {firstName} {lastName}
+              By {this.props.owner.firstName} {this.props.owner.lastName}
             </p>
           </div>
           <div className="course--description">
-            <ReactMarkdown source={description} />
+            <ReactMarkdown source={this.props.course.description} />
           </div>
         </div>
         <div className="grid-25 grid-right">
@@ -30,12 +22,12 @@ export default class Details extends React.Component {
             <ul className="course--stats--list">
               <li className="course--stats--list--item">
                 <h4>Estimated Time</h4>
-                <h3>{estimatedTime}</h3>
+                <h3>{this.props.course.estimatedTime}</h3>
               </li>
               <li className="course--stats--list--item">
                 <h4>Materials Needed</h4>
                 <ul>
-                  <ReactMarkdown source={materialsNeeded} />
+                  <ReactMarkdown source={this.props.course.materialsNeeded} />
                 </ul>
               </li>
             </ul>

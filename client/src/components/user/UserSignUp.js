@@ -17,32 +17,81 @@ export default class UserSignUp extends React.Component {
     errors: []
   };
 
-  render() {
+  // On input change set the state of the values
+  change = event => {
+    const name = event.target.name;
+    const value = event.target.value;
+
+    this.setState(() => {
+      return {
+        [name]: value
+      };
+    });
+  };
+
+  // submit handler
+  submit = () => {
     const {
       firstName,
       lastName,
       emailAddress,
       password,
-      confirmPassword,
-      errors
+      confirmPassword
     } = this.state;
 
+    //new user payload to be passed to the create user function in Data.js being passed thru context
+    const user = {
+      firstName,
+      lastName,
+      emailAddress,
+      password,
+      confirmPassword
+    };
+
+    // Passes above payload to create user function in Data.js then returns errors if any.
+    this.props.context.data
+      .createUser(user)
+      .then(errors => {
+        if (errors.length > 0) {
+          this.setState({ errors });
+        } else {
+          // Sign us in if there are no errors and send to root dir
+          this.props.context.actions.signIn(emailAddress, password).then(() => {
+            this.props.history.push("/");
+          });
+        }
+      })
+      .catch(err => {
+        // handle rejected promises
+        console.log(err);
+        // this.props.history.push("/error"); //push to history stack
+      });
+  };
+
+  // Cancel button handler return to root dir
+  cancel = () => {
+    this.props.history.push("/"); // redirect to main page
+  };
+
+  render() {
     return (
       <div className="bounds">
         <div className="grid-33 centered signin">
           <h1>Sign Up</h1>
           <Form
+            // Button event handlers
             cancel={this.cancel}
-            errors={errors}
+            errors={this.state.errors}
             submit={this.submit}
             submitButtonText="Sign Up"
+            // Form elements to be rendered
             elements={() => (
               <React.Fragment>
                 <input
                   id="firstName"
                   name="firstName"
                   type="text"
-                  value={firstName}
+                  value={this.state.firstName}
                   onChange={this.change}
                   placeholder="First Name"
                 />
@@ -50,7 +99,7 @@ export default class UserSignUp extends React.Component {
                   id="lastName"
                   name="lastName"
                   type="text"
-                  value={lastName}
+                  value={this.state.lastName}
                   onChange={this.change}
                   placeholder="Last Name"
                 />
@@ -58,7 +107,7 @@ export default class UserSignUp extends React.Component {
                   id="emailAddress"
                   name="emailAddress"
                   type="text"
-                  value={emailAddress.toLowerCase()}
+                  value={this.state.emailAddress.toLowerCase()}
                   onChange={this.change}
                   placeholder="Email Address"
                 />
@@ -66,7 +115,7 @@ export default class UserSignUp extends React.Component {
                   id="password"
                   name="password"
                   type="password"
-                  value={password}
+                  value={this.state.password}
                   onChange={this.change}
                   placeholder="Password"
                 />
@@ -74,7 +123,7 @@ export default class UserSignUp extends React.Component {
                   id="confirmPassword"
                   name="confirmPassword"
                   type="password"
-                  value={confirmPassword}
+                  value={this.state.confirmPassword}
                   onChange={this.change}
                   placeholder="Confirm Password"
                 />
@@ -90,56 +139,4 @@ export default class UserSignUp extends React.Component {
       </div>
     );
   }
-
-  change = event => {
-    const name = event.target.name;
-    const value = event.target.value;
-
-    this.setState(() => {
-      return {
-        [name]: value
-      };
-    });
-  };
-
-  submit = () => {
-    const { context } = this.props;
-    const {
-      firstName,
-      lastName,
-      emailAddress,
-      password,
-      confirmPassword
-    } = this.state;
-
-    //new user payload
-    const user = {
-      firstName,
-      lastName,
-      emailAddress,
-      password,
-      confirmPassword
-    };
-
-    context.data
-      .createUser(user)
-      .then(errors => {
-        if (errors.length > 0) {
-          this.setState({ errors });
-        } else {
-          context.actions.signIn(emailAddress, password).then(() => {
-            this.props.history.push("/");
-          });
-        }
-      })
-      .catch(err => {
-        // handle rejected promises
-        console.log(err);
-        // this.props.history.push("/error"); //push to history stack
-      });
-  };
-
-  cancel = () => {
-    this.props.history.push("/"); // redirect to main page
-  };
 }

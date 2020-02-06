@@ -16,7 +16,7 @@ import Details from "./Details";
 //Adds context for Auth User to make dynamic buttons for Action Bar
 const ActionsBarWithContext = withContext(ActionsBar);
 
-class CourseDetail extends React.Component {
+export default class CourseDetail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -32,6 +32,7 @@ class CourseDetail extends React.Component {
     this.getCourse();
   }
 
+  // Get Course Function
   async getCourse() {
     let courseIdParen = await this.props.location.pathname;
     let courseId = await courseIdParen.replace("/courses/", "");
@@ -80,5 +81,3 @@ class CourseDetail extends React.Component {
     );
   }
 }
-
-export default CourseDetail;

@@ -2,15 +2,19 @@ import React from "react";
 import config from "../../config";
 import { useHistory } from "react-router-dom";
 
+// courses navigation inside course details
+//
 const ActionBar = props => {
   let history = useHistory();
   const authUser = props.context.authenticatedUser;
 
+  // Delete Handler
   function handleDelete(event) {
     event.preventDefault();
     courseDelete(props);
   }
 
+  // Delete Course function takes props
   async function courseDelete(props) {
     await fetch(`${config.apiBaseUrl}/courses/${props.courseId}`, {
       method: "DELETE",
@@ -34,6 +38,7 @@ const ActionBar = props => {
     });
   }
 
+  // Check auth if !auth hide update and delete buttons
   function ifAuth(props) {
     if (!authUser) {
       return null;

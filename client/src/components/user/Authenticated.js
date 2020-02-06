@@ -1,5 +1,6 @@
 import React from "react";
 
+// Currently this component is not being used
 export default ({ context }) => {
   const authUser = context.authenticatedUser;
 
