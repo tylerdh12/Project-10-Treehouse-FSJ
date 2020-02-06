@@ -18,9 +18,11 @@ const Header = props => {
         <nav>
           {authUser ? (
             <React.Fragment>
-              <span>
-                Welcome, {authUser.firstName} {authUser.lastName}!
-              </span>
+              <a href="/settings">
+                <span>
+                  Welcome, {authUser.firstName} {authUser.lastName}!
+                </span>
+              </a>
               <Link to="/signout">Sign Out</Link>
             </React.Fragment>
           ) : (

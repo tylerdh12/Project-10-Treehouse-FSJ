@@ -8,9 +8,13 @@ export default ({ context }) => {
     <div className="bounds">
       <div>
         <h1>
-          {authUser.firstName} {authUser.lastName} is Authenticated!
+          Welcome, {authUser.firstName} {authUser.lastName}!
         </h1>
-        <p>Your username is {authUser.emailAddress}.</p>
+        <div className="settings-menu">
+          <h2>Settings</h2>
+          <br />
+          <p>Username: {authUser.emailAddress}.</p>
+        </div>
       </div>
     </div>
   );
