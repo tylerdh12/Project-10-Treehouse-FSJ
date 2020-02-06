@@ -53,6 +53,8 @@ export default class UpdateCourse extends React.Component {
         });
       } else if (res.status === 401) {
         return null;
+      } else if (res.status === 404) {
+        this.props.history.push("/notfound");
       } else {
         new Error();
       }
