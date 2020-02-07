@@ -1,6 +1,7 @@
 import React from "react";
 import Form from "./Form";
 import Cookies from "js-cookie";
+import { Link } from "react-router-dom";
 
 export default class UserSignIn extends React.Component {
   state = {
@@ -89,8 +90,8 @@ export default class UserSignIn extends React.Component {
           />
           <p>&nbsp;</p>
           <p>
-            Don't have a user account? <a href="signup">Click here</a> to sign
-            up!
+            Don't have a user account? <Link to="signup">Click here</Link> to
+            sign up!
           </p>
         </div>
       </div>

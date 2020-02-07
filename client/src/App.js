@@ -13,7 +13,7 @@ import UserSignUp from "./components/user/UserSignUp";
 import UserSignIn from "./components/user/UserSignIn";
 import UserSignOut from "./components/user/UserSignOut";
 import Forbidden from "./components/Forbidden";
-import Error from "./components/Error";
+import UnhandledError from "./components/UnhandledError";
 import NotFound from "./components/NotFound";
 
 //Import With Context
@@ -54,7 +54,7 @@ export default () => {
           <Route path="/signin" component={UserSignInWithContext} />
           <PrivateRoute path="/signout" component={UserSignOutWithContext} />
           <Route path="/forbidden" component={Forbidden} />
-          <Route path="/error" component={Error} />
+          <Route path="/error" component={UnhandledError} />
           <Route path="/notfound" component={NotFound} />
           <Route component={NotFound} />
         </Switch>

@@ -13,16 +13,16 @@ const Header = props => {
     <div className="header">
       <div className="bounds">
         <h1 className="header--logo">
-          <a href="/">Courses</a>
+          <Link to="/">Courses</Link>
         </h1>
         <nav>
           {authUser ? (
             <React.Fragment>
-              <a href="/settings">
+              <Link to="/settings">
                 <span>
                   Welcome, {authUser.firstName} {authUser.lastName}!
                 </span>
-              </a>
+              </Link>
               <Link to="/signout">Sign Out</Link>
             </React.Fragment>
           ) : (

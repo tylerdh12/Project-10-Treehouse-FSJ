@@ -110,7 +110,7 @@ export default class UpdateCourse extends React.Component {
 
   // Cancel Button Event Handler
   cancel = () => {
-    this.props.history.push("/"); // redirect to main page
+    this.props.history.push(`/courses/${this.props.match.params.id}`); // redirect to main page
   };
 
   render() {
