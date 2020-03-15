@@ -1,3 +1,3 @@
 export default {
-  apiBaseUrl: "//73.96.11.54/api"
+  apiBaseUrl: "https://courses-pro.herokuapp.com/api"
 };
