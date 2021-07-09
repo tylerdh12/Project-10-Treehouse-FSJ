@@ -347,4 +347,6 @@ To get an "exceeds" rating, complete all of the steps below:
 - Passing grades are final. If you try for the "Exceeds Expectations" grade, but miss an item and receive a “Meets Expectations” grade, you won’t get a second chance. Exceptions can be made for items that have been misgraded in review.
 - Always mention in the comments of your submission or any resubmission, what grade you are going for. Some students want their project to be rejected if they do not meet all Exceeds Expectations Requirements, others will try for all the "exceeds" requirement but do not mind if they pass with a Meets Expectations grade. Leaving a comment in your submission will help the reviewer understand which grade you are specifically going for
    
-To build this project in CodeSandbox visit: https://codesandbox.io/s/competent-chaum-nd615?file=/src/index.js
+To build this project in CodeSandbox visit: 
+   
+[![Edit competent-chaum-nd615](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/competent-chaum-nd615?autoresize=1&fontsize=14&hidenavigation=1&theme=dark)
